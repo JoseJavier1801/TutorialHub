@@ -27,6 +27,7 @@ public class UserService {
         }
     }
 
+
     public user CreateUser(user user) {
         user end;
         if(user.getId() != -1) {//update
@@ -54,4 +55,6 @@ public class UserService {
             throw new RuntimeException("User not found with id: " + id);
         }
     }
+
+
 }
