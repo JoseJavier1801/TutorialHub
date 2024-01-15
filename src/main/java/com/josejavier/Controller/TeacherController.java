@@ -2,7 +2,7 @@ package com.josejavier.Controller;
 
 
 
-import com.josejavier.model.teacher;
+import com.josejavier.model.Teacher;
 import com.josejavier.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,20 +18,20 @@ public class TeacherController {
     TeacherService service;
 
     @GetMapping
-    public ResponseEntity<List<teacher>> getAllTeachers() {
-        List<teacher> teachers=service.getAllTeachers();
-        return  ResponseEntity.ok(teachers);
+    public ResponseEntity<List<Teacher>> getAllTeachers() {
+        List<Teacher> Teachers =service.getAllTeachers();
+        return  ResponseEntity.ok(Teachers);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<teacher> getTeacherById(@PathVariable("id") int id) {
-        teacher teacher=service.getTeacherById(id);
+    public ResponseEntity<Teacher> getTeacherById(@PathVariable("id") int id) {
+        Teacher teacher=service.getTeacherById(id);
         return ResponseEntity.ok(teacher);
     }
 
     @PostMapping
-    public ResponseEntity<teacher> CreateTeacher(@RequestBody teacher teacher) {
-        teacher end=service.CreateTeacher(teacher);
+    public ResponseEntity<Teacher> CreateTeacher(@RequestBody Teacher teacher) {
+        Teacher end=service.createOrUpdateTeacher(teacher);
         return ResponseEntity.ok(end);
     }
 

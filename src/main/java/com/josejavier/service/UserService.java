@@ -1,6 +1,6 @@
 package com.josejavier.service;
 
-import com.josejavier.model.user;
+import com.josejavier.model.User;
 import com.josejavier.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,12 +14,12 @@ public class UserService {
     @Autowired
     UserRepository repo;
 
-    public List<user> getAllUsers() {
-        List<user> users = repo.findAll();
-        return users;
+    public List<User> getAllUsers() {
+        List<User> Users = repo.findAll();
+        return Users;
     }
-    public user getUserById(int id) {
-        Optional<user> user = repo.findById(id);
+    public User getUserById(int id) {
+        Optional<User> user = repo.findById(id);
         if(user.isPresent()) {
             return user.get();
         } else {
@@ -28,14 +28,20 @@ public class UserService {
     }
 
 
-    public user CreateUser(user user) {
-        user end;
-        if(user.getId() != -1) {//update
-            Optional<user> result = repo.findById(user.getId());
+    public User CreateUser(User user) {
+        User end;
+        if(user.getId() != 0) {//update
+            Optional<User> result = repo.findById(user.getId());
             if(result.isPresent()) {
-                user u=result.get();
+                User u=result.get();
+                u.setPhoto(user.getPhoto());
                 u.setName(user.getName());
+                u.setUsername(user.getUsername());
+                u.setMail(user.getMail());
+                u.setPassword(user.getPassword());
                 u.setAge(user.getAge());
+                u.setDate(user.getDate());
+                u.setPhone(user.getPhone());
                 end = repo.save(u);
             }else {
                 throw new RuntimeException("User not found with id: " + user.getId());
@@ -48,13 +54,11 @@ public class UserService {
     }
 
     public void deleteUser(int id) {
-        Optional<user> result = repo.findById(id);
+        Optional<User> result = repo.findById(id);
         if(result.isPresent()) {
             repo.deleteById(id);
         } else {
             throw new RuntimeException("User not found with id: " + id);
         }
     }
-
-
 }

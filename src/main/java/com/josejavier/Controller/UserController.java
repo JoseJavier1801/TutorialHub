@@ -1,6 +1,6 @@
 package com.josejavier.Controller;
 
-import com.josejavier.model.user;
+import com.josejavier.model.User;
 import com.josejavier.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,19 +15,19 @@ public class UserController {
     UserService service;
 
     @GetMapping
-    public ResponseEntity<List<user>> getAllUsers() {
-        List<user> users = service.getAllUsers();
-        return ResponseEntity.ok(users);
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> Users = service.getAllUsers();
+        return ResponseEntity.ok(Users);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<user> getUserById(@PathVariable("id") int id) {
-        user user = service.getUserById(id);
+    public ResponseEntity<User> getUserById(@PathVariable("id") int id) {
+        User user = service.getUserById(id);
         return ResponseEntity.ok(user);
     }
 
     @PostMapping
-    public ResponseEntity<user> CreateUser(@RequestBody user user) {
-        user end = service.CreateUser(user);
+    public ResponseEntity<User> CreateUser(@RequestBody User user) {
+        User end = service.CreateUser(user);
         return ResponseEntity.ok(end);
     }
 
