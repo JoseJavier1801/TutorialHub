@@ -1,44 +1,29 @@
 package com.josejavier.model;
 
+import com.josejavier.model.User;
 import jakarta.persistence.*;
 
+import java.sql.Date;
 
 @Entity
 @Table(name = "Teacher")
-public class Teacher {
-
-    @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private int id;
+@DiscriminatorValue("Teacher")
+public class Teacher extends User {
 
     @Column(name = "Title")
     private String title;
-
     @Column(name = "Biography")
     private String biography;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User u;
-
     public Teacher() {
-
     }
 
-    public Teacher(int id, String title, String biography, User u) {
-        this.id = id;
+    public Teacher(int id, String photo, String name, String username, String mail, String password, int age, Date date, String phone, String title, String biography) {
+        super(id, photo, name, username, mail, password, age, date, phone);
         this.title = title;
         this.biography = biography;
-        this.u = u;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -54,13 +39,5 @@ public class Teacher {
 
     public void setBiography(String biography) {
         this.biography = biography;
-    }
-
-    public User getU() {
-        return u;
-    }
-
-    public void setU(User u) {
-        this.u = u;
     }
 }
