@@ -1,4 +1,4 @@
-package com.josejavier.model;
+/* com.josejavier.model;
 
 import jakarta.persistence.*;
 
@@ -125,3 +125,4 @@ public class Classroom {
         this.teacher = teacher;
     }
 }
+*/

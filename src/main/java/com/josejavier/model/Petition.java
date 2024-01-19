@@ -1,8 +1,9 @@
+/*package com.josejavier.model;
+
 import com.josejavier.model.Classroom;
 import jakarta.persistence.*;
 import org.apache.catalina.User;
 
-import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -99,4 +100,4 @@ public class Petition {
     public void setClassroom(Classroom classroom) {
         this.classroom = classroom;
     }
-}
+}*/

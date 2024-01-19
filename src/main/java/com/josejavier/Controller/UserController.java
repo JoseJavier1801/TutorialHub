@@ -31,6 +31,12 @@ public class UserController {
         return ResponseEntity.ok(end);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(@PathVariable("id") int id, @RequestBody User user) {
+        User end = service.CreateUser(user);
+        return ResponseEntity.ok(end);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") int id) {
         service.deleteUser(id);

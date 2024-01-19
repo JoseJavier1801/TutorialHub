@@ -1,4 +1,4 @@
-package com.josejavier.model;
+/*package com.josejavier.model;
 
 import jakarta.persistence.*;
 import org.apache.catalina.User;
@@ -92,3 +92,4 @@ public class Mailbox {
         this.classroom = classroom;
     }
 }
+*/
