@@ -33,6 +33,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") int id, @RequestBody User user) {
+        user.setId(id);
         User end = service.CreateUser(user);
         return ResponseEntity.ok(end);
     }

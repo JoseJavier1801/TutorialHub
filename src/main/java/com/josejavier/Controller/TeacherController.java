@@ -37,6 +37,7 @@ public class TeacherController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Teacher> updateTeacher(@PathVariable("id") int id, @RequestBody Teacher teacher) {
+        teacher.setId(id);
         Teacher end=service.createOrUpdateTeacher(teacher);
         return ResponseEntity.ok(end);
     }
