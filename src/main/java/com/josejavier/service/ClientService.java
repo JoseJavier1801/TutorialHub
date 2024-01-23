@@ -14,11 +14,11 @@ public class ClientService {
     @Autowired
     ClientRepository repo;
 
-    public List<Client> getAllUsers() {
+    public List<Client> getAllClients() {
         List<Client> clients = repo.findAll();
         return clients;
     }
-    public Client getUserById(int id) {
+    public Client getClientById(int id) {
         Optional<Client> user = repo.findById(id);
         if(user.isPresent()) {
             return user.get();
@@ -28,7 +28,7 @@ public class ClientService {
     }
 
 
-    public Client CreateUser(Client client) {
+    public Client CreateClient(Client client) {
         Client end;
         if(client.getId() != 0) {//update
             Optional<Client> result = repo.findById(client.getId());
@@ -52,7 +52,7 @@ public class ClientService {
 
     }
 
-    public void deleteUser(int id) {
+    public void deleteClient(int id) {
         Optional<Client> result = repo.findById(id);
         if(result.isPresent()) {
             repo.deleteById(id);

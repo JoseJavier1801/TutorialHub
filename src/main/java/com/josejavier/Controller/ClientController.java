@@ -15,26 +15,33 @@ public class ClientController {
     ClientService service;
 
     @GetMapping
-    public ResponseEntity<List<Client>> getAllUsers() {
-        List<Client> clients = service.getAllUsers();
+    public ResponseEntity<List<Client>> getAllClients() {
+        List<Client> clients = service.getAllClients();
         return ResponseEntity.ok(clients);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Client> getUserById(@PathVariable("id") int id) {
-        Client client = service.getUserById(id);
+    public ResponseEntity<Client> getClientById(@PathVariable("id") int id) {
+        Client client = service.getClientById(id);
         return ResponseEntity.ok(client);
     }
 
     @PostMapping
-    public ResponseEntity<Client> CreateUser(@RequestBody Client client) {
-        Client end = service.CreateUser(client);
+    public ResponseEntity<Client> CreateClient(@RequestBody Client client) {
+        Client end = service.CreateClient(client);
         return ResponseEntity.ok(end);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") int id) {
-        service.deleteUser(id);
+    public ResponseEntity<String> deleteClient(@PathVariable("id") int id) {
+        service.deleteClient(id);
         return ResponseEntity.ok("User deleted successfully");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Client> updateClient(@PathVariable("id") int id, @RequestBody Client client) {
+        client.setId(id);
+        Client end = service.CreateClient(client);
+        return ResponseEntity.ok(end);
     }
 
 }
