@@ -1,58 +1,56 @@
 package com.josejavier.model;
 
 
+
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "User")
+@Table(name = "client")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "user_type", discriminatorType = DiscriminatorType.STRING)
-public class User {
+public class Client {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "Photo")
+    @Column(name = "photo")
     private String photo;
 
-    @Column(name = "Name")
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "Username")
+    @Column(name = "username")
     private String username;
 
-    @Column(name = "Mail")
+    @Column(name = "mail")
     private String mail;
 
-    @Column(name = "Password")
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "Age")
-    private int age;
+    @Column(name = "date",columnDefinition = "DATE")
+    private LocalDate date;
 
-    @Column(name = "Date")
-    private java.sql.Date date;
-
-    @Column(name = "Phone")
+    @Column(name = "phone")
     private String phone;
 
-    public User(){
+    public Client() {
 
     }
 
-    public User(int id, String photo, String name, String username, String mail, String password, int age, Date date, String phone) {
+    public Client(int id, String photo, String name, String username, String mail, String password, LocalDate date, String phone) {
         this.id = id;
         this.photo = photo;
         this.name = name;
         this.username = username;
         this.mail = mail;
         this.password = password;
-        this.age = age;
         this.date = date;
         this.phone = phone;
     }
+
+    // Getters and setters
 
     public int getId() {
         return id;
@@ -102,19 +100,12 @@ public class User {
         this.password = password;
     }
 
-    public int getAge() {
-        return age;
-    }
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

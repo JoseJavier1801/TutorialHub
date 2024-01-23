@@ -19,7 +19,9 @@ public class TeacherService {
     }
 
     public Teacher getTeacherById(int id) {
+
         Optional<Teacher> teacher = repo.findById(id);
+        System.out.println("Buscando profesor con ID: " + id);
         if (teacher.isPresent()) {
             return teacher.get();
         } else {
