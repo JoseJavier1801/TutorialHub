@@ -1,25 +1,30 @@
 package com.josejavier.model;
 
-import com.josejavier.model.User;
 import jakarta.persistence.*;
 
-import java.sql.Date;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@Table(name = "Teacher")
-@DiscriminatorValue("Teacher")
-public class Teacher extends User {
+@Table(name = "teacher")
+public class Teacher extends Client {
 
-    @Column(name = "Title")
+    @Column(name = "title")
     private String title;
-    @Column(name = "Biography")
+    @Column(name = "biography")
     private String biography;
+
+    @OneToMany(mappedBy = "teacher")
+    private List<Classroom> classrooms;
+
+
 
     public Teacher() {
     }
 
-    public Teacher(int id, String photo, String name, String username, String mail, String password, int age, Date date, String phone, String title, String biography) {
-        super(id, photo, name, username, mail, password, age, date, phone);
+    public Teacher(int id, String photo, String name, String username, String mail, String password, int age, LocalDate date, String phone, String title, String biography) {
+        super(id, photo, name, username, mail, password, date, phone);
         this.title = title;
         this.biography = biography;
     }

@@ -1,13 +1,19 @@
 package com.josejavier.model;
 
+
 import jakarta.persistence.*;
+import org.hibernate.annotations.ColumnTransformer;
+
+import java.awt.*;
+import java.lang.Integer;
+
 
 @Entity
 @Table(name = "classroom")
 public class Classroom {
     @Id
-    @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
     @Column(name = "description", length = 256, nullable = false)
     private String description;
@@ -15,11 +21,15 @@ public class Classroom {
     @Column(name = "type", nullable = false)
     private String type;
 
-    @Column(name = "Category")
+    @Column(name = "category")
     private String category;
 
-    @Column(name = "location")
-    private String location;
+    @Column(name = "location", columnDefinition = "POINT")
+    @ColumnTransformer(
+            read = "ST_AsText(location)",
+            write = "ST_PointFromText(? ,4326)"
+    )
+    private Point location;
 
     @Column(name = "direction")
     private String direction;
@@ -30,16 +40,19 @@ public class Classroom {
     @Column(name = "province")
     private String province;
 
+    @Column(name = "localidad")
+    private String localidad;
+
     @ManyToOne
     @JoinColumn(name = "id_teacher", nullable = false)
     private Teacher teacher;
 
     public Classroom() {
-        this(-1, "", "", "", "", "", "", "", new Teacher());
+        this(null, "", "", "", null, "", "", "", "", new Teacher());
     }
 
-    public Classroom(int id, String description, String type, String category, String location,
-                     String direction, String postalCode, String province, Teacher teacher) {
+    public Classroom(Integer id, String description, String type, String category, Point location,
+                     String direction, String postalCode, String province, String localidad, Teacher teacher) {
         this.id = id;
         this.description = description;
         this.type = type;
@@ -48,16 +61,17 @@ public class Classroom {
         this.direction = direction;
         this.postalCode = postalCode;
         this.province = province;
+        this.localidad = localidad;
         this.teacher = teacher;
     }
 
     // Getters and setters
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -85,11 +99,11 @@ public class Classroom {
         this.category = category;
     }
 
-    public String getLocation() {
+    public Point getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Point location) {
         this.location = location;
     }
 
@@ -115,6 +129,14 @@ public class Classroom {
 
     public void setProvince(String province) {
         this.province = province;
+    }
+
+    public String getLocalidad() {
+        return localidad;
+    }
+
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
     }
 
     public Teacher getTeacher() {

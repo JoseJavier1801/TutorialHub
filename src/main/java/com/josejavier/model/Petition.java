@@ -1,9 +1,11 @@
-import com.josejavier.model.Classroom;
-import jakarta.persistence.*;
-import org.apache.catalina.User;
+package com.josejavier.model;
 
-import javax.persistence.*;
-import java.util.Date;
+
+
+import jakarta.persistence.*;
+
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "petition")
@@ -18,13 +20,12 @@ public class Petition {
     @Column(name = "state", nullable = false)
     private String state;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "date", nullable = false)
-    private Date date;
+    @Column(name = "Date",columnDefinition = "DATE")
+    private LocalDate Date;
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
-    private User user;
+    private Client client;
 
     @ManyToOne
     @JoinColumn(name = "id_classroom", nullable = false)
@@ -36,17 +37,17 @@ public class Petition {
         this.id = -1;
         this.message = "";
         this.state = "";
-        this.date = new Date();
-        this.user = new User();
+        this.Date = LocalDate.now();
+        this.client = new Client(); // Aquí puede ser User, ya que Teacher extiende User
         this.classroom = new Classroom();
     }
 
-    public Petition(int id, String message, String state, Date date, User user, Classroom classroom) {
+    public Petition(int id, String message, String state, LocalDate date, Client client, Classroom classroom) {
         this.id = id;
         this.message = message;
         this.state = state;
-        this.date = date;
-        this.user = user;
+        this.Date = date;
+        this.client = client;
         this.classroom = classroom;
     }
 
@@ -76,20 +77,20 @@ public class Petition {
         this.state = state;
     }
 
-    public Date getDate() {
-        return date;
+    public LocalDate getDate() {
+        return Date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate(LocalDate date) {
+        this.Date = date;
     }
 
-    public User getUser() {
-        return user;
+    public Client getUser() {
+        return client;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(Client client) {
+        this.client = client;
     }
 
     public Classroom getClassroom() {
