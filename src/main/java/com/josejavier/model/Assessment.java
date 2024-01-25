@@ -70,11 +70,11 @@ public class Assessment {
         this.teacher = teacher;
     }
 
-    public Client getUser() {
+    public Client getClient() {
         return client;
     }
 
-    public void setUser(Client client) {
+    public void setClient(Client client) {
         this.client = client;
     }
 }

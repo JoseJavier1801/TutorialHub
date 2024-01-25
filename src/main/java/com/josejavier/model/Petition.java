@@ -1,10 +1,6 @@
 package com.josejavier.model;
 
-
-
 import jakarta.persistence.*;
-
-
 import java.time.LocalDate;
 
 @Entity
@@ -20,7 +16,7 @@ public class Petition {
     @Column(name = "state", nullable = false)
     private String state;
 
-    @Column(name = "Date",columnDefinition = "DATE")
+    @Column(name = "Date", columnDefinition = "DATE")
     private LocalDate Date;
 
     @ManyToOne
@@ -38,19 +34,18 @@ public class Petition {
         this.message = "";
         this.state = "";
         this.Date = LocalDate.now();
-        this.client = new Client(); // Aquí puede ser User, ya que Teacher extiende User
+        this.client = new Client();
         this.classroom = new Classroom();
     }
 
-    public Petition(int id, String message, String state, LocalDate date, Client client, Classroom classroom) {
-        this.id = id;
+    public Petition(String message, String state, LocalDate date, Client client, Classroom classroom) {
+        this.id = -1;
         this.message = message;
         this.state = state;
         this.Date = date;
         this.client = client;
         this.classroom = classroom;
     }
-
     // Getters y setters
 
     public int getId() {
@@ -85,11 +80,11 @@ public class Petition {
         this.Date = date;
     }
 
-    public Client getUser() {
+    public Client getClient() {
         return client;
     }
 
-    public void setUser(Client client) {
+    public void setClient(Client client) {
         this.client = client;
     }
 
@@ -100,4 +95,6 @@ public class Petition {
     public void setClassroom(Classroom classroom) {
         this.classroom = classroom;
     }
+
+
 }

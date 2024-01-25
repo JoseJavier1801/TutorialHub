@@ -35,11 +35,12 @@ public class AssessmentService {
                     assessment.setComment(newAssessment.getComment());
                     assessment.setAssessment(newAssessment.getAssessment());
                     assessment.setTeacher(newAssessment.getTeacher());
-                    assessment.setUser(newAssessment.getUser());
+                    assessment.setClient(newAssessment.getClient()); // Ajuste aquí
                     return assessmentRepository.save(assessment);
                 })
                 .orElse(null);
     }
+
 
     public void deleteAssessment(int id) {
         assessmentRepository.deleteById(id);
