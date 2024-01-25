@@ -3,8 +3,8 @@ package com.josejavier.model;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnTransformer;
+import org.springframework.data.geo.Point;
 
-import java.awt.*;
 import java.lang.Integer;
 
 
