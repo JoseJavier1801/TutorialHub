@@ -36,6 +36,13 @@ public class TeacherService {
             Optional<Teacher> result = repo.findById(teacher.getId());
             if (result.isPresent()) {
                 Teacher existingTeacher = result.get();
+                existingTeacher.setName(teacher.getName());
+                existingTeacher.setDate(teacher.getDate());
+                existingTeacher.setUsername(teacher.getUsername());
+                existingTeacher.setPassword(teacher.getPassword());
+                existingTeacher.setMail(teacher.getMail());
+                existingTeacher.setPhone(teacher.getPhone());
+                existingTeacher.setPhoto(teacher.getPhoto());
                 existingTeacher.setTitle(teacher.getTitle());
                 existingTeacher.setBiography(teacher.getBiography());
                 end = repo.save(existingTeacher);
@@ -53,6 +60,7 @@ public class TeacherService {
         Optional<Teacher> result = repo.findById(id);
         if (result.isPresent()) {
             repo.deleteById(id);
+            throw new RuntimeException("Teacher with id: " + id + " deleted succesfully ");
         } else {
             throw new RuntimeException("Teacher not found with id: " + id);
         }
