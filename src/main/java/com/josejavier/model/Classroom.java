@@ -1,16 +1,17 @@
 package com.josejavier.model;
-
-
 import jakarta.persistence.*;
-import org.hibernate.annotations.ColumnTransformer;
-import org.springframework.data.geo.Point;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.PrecisionModel;
 
-import java.lang.Integer;
+
+import java.io.Serializable;
 
 
 @Entity
 @Table(name = "classroom")
-public class Classroom {
+public class Classroom implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -24,12 +25,10 @@ public class Classroom {
     @Column(name = "category")
     private String category;
 
-    @Column(name = "location", columnDefinition = "POINT")
-    @ColumnTransformer(
-            read = "ST_AsText(location)",
-            write = "ST_PointFromText(? ,4326)"
-    )
+
+    @Column (name="location", columnDefinition="Geometry(Point,4326)", nullable=true)
     private Point location;
+
 
     @Column(name = "direction")
     private String direction;
@@ -46,6 +45,23 @@ public class Classroom {
     @ManyToOne
     @JoinColumn(name = "id_teacher", nullable = false)
     private Teacher teacher;
+
+    public Classroom(ClassroomDTO dto){
+        this.id = dto.getId();
+        this.description = dto.getDescription();
+        this.type = dto.getType();
+        this.category = dto.getCategory();
+
+        GeometryFactory factory = new GeometryFactory(new PrecisionModel(), 4326);
+        Point p = factory.createPoint(new Coordinate(dto.getLng(), dto.getLat()));
+        this.location = p;
+        this.direction= dto.getDirection();
+        this.postalCode = dto.getPostalCode();
+        this.province = dto.getProvince();
+        this.localidad = dto.getLocalidad();
+        this.teacher = new Teacher();
+        this.teacher.setId(dto.getTeacherID());
+    }
 
     public Classroom() {
         this(null, "", "", "", null, "", "", "", "", new Teacher());
@@ -104,6 +120,13 @@ public class Classroom {
     }
 
     public void setLocation(Point location) {
+        //org.springframework.data.geo.
+        /*GeometryFactory factory = new GeometryFactory();
+        org.locationtech.jts.geom.Point point = factory.createPoint(new Coordinate(location.getX(), location.getY()));
+        System.out.println(location);
+        System.out.println(point);
+        System.out.println("SETTER");
+        this.location = point;*/
         this.location = location;
     }
 
