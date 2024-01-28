@@ -1,4 +1,6 @@
 package com.josejavier.model;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -44,7 +46,9 @@ public class Classroom implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_teacher", nullable = false)
+    @JsonBackReference
     private Teacher teacher;
+
 
     public Classroom(ClassroomDTO dto){
         this.id = dto.getId();
@@ -120,13 +124,7 @@ public class Classroom implements Serializable {
     }
 
     public void setLocation(Point location) {
-        //org.springframework.data.geo.
-        /*GeometryFactory factory = new GeometryFactory();
-        org.locationtech.jts.geom.Point point = factory.createPoint(new Coordinate(location.getX(), location.getY()));
-        System.out.println(location);
-        System.out.println(point);
-        System.out.println("SETTER");
-        this.location = point;*/
+
         this.location = location;
     }
 

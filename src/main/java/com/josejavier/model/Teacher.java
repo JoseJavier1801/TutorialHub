@@ -18,6 +18,8 @@ public class Teacher extends Client {
     @OneToMany(mappedBy = "teacher")
     private List<Classroom> classrooms;
 
+    @OneToMany(mappedBy = "teacher")
+    private List<Assessment> assessments;
 
 
     public Teacher() {

@@ -69,4 +69,19 @@ public class PetitionService {
             throw new RuntimeException("Error retrieving petition by ID", e);
         }
     }
+    public List<Petition> getPetitionsWithTrueStatus() {
+        try {
+            return petitionRepository.getPetitionsWithTrueStatus();
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving petitions with true status", e);
+        }
+    }
+
+    public List<Petition> getPetitionsWithFalseStatus() {
+        try {
+            return petitionRepository.getPetitionsWithFalseStatus();
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving petitions with false status", e);
+        }
+    }
 }

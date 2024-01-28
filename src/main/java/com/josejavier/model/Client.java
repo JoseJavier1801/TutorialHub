@@ -5,6 +5,7 @@ package com.josejavier.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "client")
@@ -34,6 +35,9 @@ public class Client {
 
     @Column(name = "phone")
     private String phone;
+    @OneToMany(mappedBy = "client")
+    private List<Assessment> assessments;
+
 
     public Client() {
 
