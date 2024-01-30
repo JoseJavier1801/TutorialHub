@@ -60,7 +60,6 @@ public class TeacherService {
         Optional<Teacher> result = repo.findById(id);
         if (result.isPresent()) {
             repo.deleteById(id);
-            throw new RuntimeException("Teacher with id: " + id + " deleted succesfully ");
         } else {
             throw new RuntimeException("Teacher not found with id: " + id);
         }
