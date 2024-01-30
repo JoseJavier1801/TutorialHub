@@ -66,7 +66,6 @@ public class ClientService {
             }
         }else { //insert
             end = repo.save(client);
-            throw new RuntimeException("User created succesfully");
         }
         return end;
 

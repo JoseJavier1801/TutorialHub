@@ -32,6 +32,7 @@ public class ClassroomService {
 
             newClass= classroomRepository.save(classroom);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Error creating/updating classroom", e);
         }
         return newClass;
@@ -47,7 +48,8 @@ public class ClassroomService {
 
     public List<Classroom> getAllClassrooms() {
         try {
-            return classroomRepository.findAll();
+            List<Classroom> classrooms = classroomRepository.findAll();
+            return classrooms;
         } catch (Exception e) {
             throw new RuntimeException("Error retrieving classrooms", e);
         }
