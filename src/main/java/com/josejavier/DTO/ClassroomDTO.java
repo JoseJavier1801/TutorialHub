@@ -1,4 +1,4 @@
-package com.josejavier.model;
+package com.josejavier.DTO;
 
 import jakarta.persistence.Column;
 import org.locationtech.jts.geom.Point;

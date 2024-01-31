@@ -1,5 +1,6 @@
 package com.josejavier.model;
 
+import com.josejavier.DTO.PetitionDTO;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 

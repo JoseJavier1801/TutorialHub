@@ -1,7 +1,7 @@
 package com.josejavier.Controller;
 
 import com.josejavier.model.Petition;
-import com.josejavier.model.PetitionDTO;
+import com.josejavier.DTO.PetitionDTO;
 import com.josejavier.service.PetitionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

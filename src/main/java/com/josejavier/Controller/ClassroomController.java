@@ -1,7 +1,7 @@
 package com.josejavier.Controller;
 
 import com.josejavier.model.Classroom;
-import com.josejavier.model.ClassroomDTO;
+import com.josejavier.DTO.ClassroomDTO;
 import com.josejavier.service.ClassroomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
