@@ -2,17 +2,14 @@ package com.josejavier.Controller;
 
 import com.josejavier.model.Classroom;
 import com.josejavier.model.ClassroomDTO;
-import com.josejavier.model.Teacher;
 import com.josejavier.service.ClassroomService;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/classrooms")
@@ -51,14 +48,22 @@ public class ClassroomController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Classroom>> getAllClassrooms() {
+    public ResponseEntity<List<ClassroomDTO>> getAllClassrooms() {
         List<Classroom> classrooms = classroomService.getAllClassrooms();
-        return ResponseEntity.ok(classrooms);
+
+        // Convertir la lista de entidades Classroom a una lista de DTOs
+        List<ClassroomDTO> classroomDTOs = classrooms.stream()
+                .map(Classroom::toDTO)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(classroomDTOs);
     }
 
+
     @GetMapping("/{id}")
-    public ResponseEntity<Classroom> getClassroomById(@PathVariable("id") int id) {
+    public ResponseEntity<ClassroomDTO> getClassroomById(@PathVariable("id") int id) {
         Classroom classroom = classroomService.getClassroomById(id);
-        return ResponseEntity.ok(classroom);
+        ClassroomDTO classroomDTO = classroom.toDTO();
+        return ResponseEntity.ok(classroomDTO);
     }
 }

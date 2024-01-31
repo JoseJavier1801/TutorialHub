@@ -12,10 +12,8 @@ public class ClassroomDTO {
 
     private String category;
 
-
     private Double lat;
     private Double lng;
-
 
     private String direction;
 

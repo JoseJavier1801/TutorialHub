@@ -1,9 +1,11 @@
 package com.josejavier.service;
 
-import com.josejavier.model.Client;
 import com.josejavier.model.Petition;
+import com.josejavier.model.Client;
+import com.josejavier.model.Classroom;
 import com.josejavier.repository.PetitionRepository;
 import com.josejavier.repository.ClientRepository;
+import com.josejavier.repository.ClassroomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,35 +16,38 @@ import java.util.Optional;
 public class PetitionService {
 
     @Autowired
-    private PetitionRepository petitionRepository;
+    private  PetitionRepository petitionRepository;
 
     @Autowired
-    private ClientRepository clientRepository;
+    private  ClientRepository clientRepository;
+
+    @Autowired
+    private ClassroomRepository classroomRepository;
+
 
     public Petition createOrUpdatePetition(Petition petition) {
+        Petition newPetition = null;
         try {
-            // Verificar si el cliente existe antes de guardar la petición
-            Client client = petition.getClient();
-            if (client != null && client.getId() != 0) {
-                // Cliente existe, recuperarlo de la base de datos
-                Optional<Client> existingClient = clientRepository.findById(client.getId());
+            // Verificar si el cliente y el aula existen antes de guardar la petición
+            Integer clientId = petition.getClient() != null ? petition.getClient().getId() : null;
+            Integer classroomId = petition.getClassroom() != null ? petition.getClassroom().getId() : null;
 
-                if (existingClient.isPresent()) {
-                    // Asociar el cliente persistente a la petición
-                    petition.setClient(existingClient.get());
-                } else {
-                    // Cliente no existe, puedes manejarlo según tus necesidades
-                    throw new RuntimeException("Client does not exist");
-                }
-            } else {
-                // Cliente no proporcionado, puedes manejarlo según tus necesidades
-                throw new RuntimeException("Client is required");
+            if (clientId == null || getClientById(clientId) == null) {
+                // El cliente no existe, puedes manejarlo según tus necesidades
+                throw new RuntimeException("Client does not exist");
             }
 
-            return petitionRepository.save(petition);
+            if (classroomId == null || getClassroomById(classroomId) == null) {
+                // El aula no existe, puedes manejarlo según tus necesidades
+                throw new RuntimeException("Classroom does not exist");
+            }
+
+            newPetition = petitionRepository.save(petition);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException("Error creating/updating petition", e);
         }
+        return newPetition;
     }
 
     public void deletePetition(Integer id) {
@@ -55,7 +60,8 @@ public class PetitionService {
 
     public List<Petition> getAllPetitions() {
         try {
-            return petitionRepository.findAll();
+            List<Petition> petitions = petitionRepository.findAll();
+            return petitions;
         } catch (Exception e) {
             throw new RuntimeException("Error retrieving petitions", e);
         }
@@ -69,19 +75,14 @@ public class PetitionService {
             throw new RuntimeException("Error retrieving petition by ID", e);
         }
     }
-    public List<Petition> getPetitionsWithTrueStatus() {
-        try {
-            return petitionRepository.getPetitionsWithTrueStatus();
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving petitions with true status", e);
-        }
+
+    public Client getClientById(Integer clientId) {
+        return clientRepository.findById(clientId).orElse(null);
     }
 
-    public List<Petition> getPetitionsWithFalseStatus() {
-        try {
-            return petitionRepository.getPetitionsWithFalseStatus();
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving petitions with false status", e);
-        }
+    public Classroom getClassroomById(Integer classroomId) {
+        return classroomRepository.findById(classroomId).orElse(null);
     }
+
+
 }

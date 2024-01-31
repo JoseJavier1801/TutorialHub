@@ -8,7 +8,7 @@ import java.time.LocalDate;
 public class Petition {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "message", length = 256, nullable = false)
     private String message;
@@ -30,12 +30,18 @@ public class Petition {
     // Constructor, getters y setters
 
     public Petition() {
-        this.id = -1;
-        this.message = "";
-        this.state = "";
-        this.Date = LocalDate.now();
+
+    }
+
+    public Petition(PetitionDTO dto){
+        this.id = dto.getId();
+        this.message = dto.getMessage();
+        this.state = dto.getState();
+        this.Date = dto.getDate();
         this.client = new Client();
+        this.client.setId(dto.getClientId());
         this.classroom = new Classroom();
+        this.classroom.setId(dto.getClassroomId());
     }
 
     public Petition(String message, String state, LocalDate date, Client client, Classroom classroom) {
@@ -95,6 +101,4 @@ public class Petition {
     public void setClassroom(Classroom classroom) {
         this.classroom = classroom;
     }
-
-
 }
