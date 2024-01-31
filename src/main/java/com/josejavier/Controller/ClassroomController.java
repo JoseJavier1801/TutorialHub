@@ -35,11 +35,51 @@ public class ClassroomController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Classroom> updateClassroom(@PathVariable("id") int id, @RequestBody Classroom classroom) {
-        classroom.setId(id);
-        Classroom updatedClassroom = classroomService.createOrUpdateClassroom(classroom);
-        return ResponseEntity.ok(updatedClassroom);
+    public ResponseEntity<ClassroomDTO> updateClassroom(@PathVariable("id") int id, @RequestBody ClassroomDTO classroomDTO) {
+        try {
+            // Verificar si el aula con la ID dada existe
+            Classroom existingClassroom = classroomService.getClassroomById(id);
+
+            if (existingClassroom == null) {
+                // Manejar la situación en la que el aula no existe
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            // Actualizar todos los campos del aula existente con los valores proporcionados en el DTO
+            existingClassroom.setDescription(classroomDTO.getDescription());
+            existingClassroom.setType(classroomDTO.getType());
+            existingClassroom.setCategory(classroomDTO.getCategory());
+            existingClassroom.setDirection(classroomDTO.getDirection());
+            existingClassroom.setPostalCode(classroomDTO.getPostalCode());
+            existingClassroom.setProvince(classroomDTO.getProvince());
+            existingClassroom.setLocalidad(classroomDTO.getLocalidad());
+
+            // Guardar la actualización en el servicio
+            Classroom updatedClassroom = classroomService.createOrUpdateClassroom(existingClassroom);
+
+            // Crear y devolver el DTO actualizado
+            ClassroomDTO updatedClassroomDTO = new ClassroomDTO();
+            updatedClassroomDTO.setId(updatedClassroom.getId());
+            updatedClassroomDTO.setDescription(updatedClassroom.getDescription());
+            updatedClassroomDTO.setType(updatedClassroom.getType());
+            updatedClassroomDTO.setCategory(updatedClassroom.getCategory());
+            updatedClassroomDTO.setDirection(updatedClassroom.getDirection());
+            updatedClassroomDTO.setPostalCode(updatedClassroom.getPostalCode());
+            updatedClassroomDTO.setProvince(updatedClassroom.getProvince());
+            updatedClassroomDTO.setLocalidad(updatedClassroom.getLocalidad());
+
+
+            return ResponseEntity.ok(updatedClassroomDTO);
+        } catch (RuntimeException e) {
+            // Manejar la excepción apropiadamente, por ejemplo, registrarla
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteClassroom(@PathVariable("id") int id) {
