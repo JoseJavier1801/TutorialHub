@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/petitions")
@@ -47,14 +48,20 @@ public class PetitionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Petition>> getAllPetitions() {
+    public ResponseEntity<List<PetitionDTO>> getAllPetitions() {
         List<Petition> petitions = petitionService.getAllPetitions();
-        return ResponseEntity.ok(petitions);
+
+        // Convertir la lista de entidades Classroom a una lista de DTOs
+        List<PetitionDTO> petitionDTOs = petitions.stream()
+                .map(Petition::toDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(petitionDTOs);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Petition> getPetitionById(@PathVariable("id") int id) {
+    public ResponseEntity<PetitionDTO> getPetitionById(@PathVariable("id") int id) {
         Petition petition = petitionService.getPetitionById(id);
-        return ResponseEntity.ok(petition);
+        PetitionDTO petitionDTO = petition.toDTO();
+        return ResponseEntity.ok(petitionDTO);
     }
 }

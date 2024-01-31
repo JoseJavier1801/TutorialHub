@@ -33,6 +33,17 @@ public class Petition {
 
     }
 
+    public PetitionDTO toDTO(){
+        PetitionDTO dto = new PetitionDTO();
+        dto.setId(this.id);
+        dto.setMessage(this.message);
+        dto.setState(this.state);
+        dto.setDate(this.Date);
+        dto.setClientId(this.client.getId());
+        dto.setClassroomId(this.classroom.getId());
+        return dto;
+    }
+
     public Petition(PetitionDTO dto){
         this.id = dto.getId();
         this.message = dto.getMessage();
