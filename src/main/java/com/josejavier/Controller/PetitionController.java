@@ -35,10 +35,39 @@ public class PetitionController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Petition> updatePetition(@PathVariable("id") int id, @RequestBody Petition petition) {
-        petition.setId(id);
-        Petition updatedPetition = petitionService.createOrUpdatePetition(petition);
-        return ResponseEntity.ok(updatedPetition);
+    public ResponseEntity<PetitionDTO> updatePetition(@PathVariable("id") int id, @RequestBody PetitionDTO petitionDTO) {
+        try {
+            // Verificar si la petición con la ID dada existe
+            Petition existingPetition = petitionService.getPetitionById(id);
+
+            if (existingPetition == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            //Actualiza todos los campos de la petiicon existente con los valores proporcionados en el DTO
+            existingPetition.setMessage(petitionDTO.getMessage());
+            existingPetition.setState(petitionDTO.getState());
+            existingPetition.setDate(petitionDTO.getDate());
+
+
+            // Guardar la actualización en el servicio
+            Petition updatedPetition = petitionService.createOrUpdatePetition(existingPetition);
+
+            // Crear y devolver el DTO actualizado
+            PetitionDTO updatedPetitionDTO = new PetitionDTO();
+            updatedPetitionDTO.setId(updatedPetition.getId());
+            updatedPetitionDTO.setMessage(updatedPetition.getMessage());
+            updatedPetitionDTO.setState(updatedPetition.getState());
+            updatedPetitionDTO.setDate(updatedPetition.getDate());
+
+
+            return ResponseEntity.ok(updatedPetitionDTO);
+        } catch (RuntimeException e) {
+           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }   catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+
     }
 
     @DeleteMapping("/{id}")
