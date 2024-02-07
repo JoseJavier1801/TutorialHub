@@ -64,6 +64,8 @@ public class ClassroomService {
         }
     }
 
+
+
     public Teacher getTeacherById(Integer teacherId) {
         return teacherRepository.findById(teacherId).orElse(null);
     }

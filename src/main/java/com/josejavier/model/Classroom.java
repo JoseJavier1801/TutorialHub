@@ -1,4 +1,7 @@
 package com.josejavier.model;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.josejavier.DTO.ClassroomDTO;
 import jakarta.persistence.*;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -44,6 +47,7 @@ public class Classroom implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_teacher", nullable = false)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     private Teacher teacher;
 
     public Classroom(ClassroomDTO dto){
@@ -61,7 +65,10 @@ public class Classroom implements Serializable {
         this.localidad = dto.getLocalidad();
         this.teacher = new Teacher();
         this.teacher.setId(dto.getTeacherID());
+
     }
+
+
 
     public Classroom() {
         this(null, "", "", "", null, "", "", "", "", new Teacher());
@@ -168,5 +175,21 @@ public class Classroom implements Serializable {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public ClassroomDTO toDTO(){
+        ClassroomDTO dto = new ClassroomDTO();
+        dto.setId(this.id);
+        dto.setDescription(this.description);
+        dto.setType(this.type);
+        dto.setCategory(this.category);
+        dto.setLat(this.location.getY());
+        dto.setLng(this.location.getX());
+        dto.setDirection(this.direction);
+        dto.setPostalCode(this.postalCode);
+        dto.setProvince(this.province);
+        dto.setLocalidad(this.localidad);
+        dto.setTeacherID(this.teacher.getId());
+        return dto;
     }
 }

@@ -35,9 +35,9 @@ public class Client {
 
     @Column(name = "phone")
     private String phone;
+
     @OneToMany(mappedBy = "client")
     private List<Assessment> assessments;
-
 
     public Client() {
 
@@ -53,6 +53,7 @@ public class Client {
         this.date = date;
         this.phone = phone;
     }
+
 
     // Getters and setters
 

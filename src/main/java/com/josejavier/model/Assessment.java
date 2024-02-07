@@ -2,6 +2,7 @@ package com.josejavier.model;
 
 
 
+import com.josejavier.DTO.AssessmentDTO;
 import jakarta.persistence.*;
 
 
@@ -29,6 +30,26 @@ public class Assessment {
     private Client client;
 
     public Assessment() {
+    }
+
+    public AssessmentDTO toDTO(){
+        AssessmentDTO dto = new AssessmentDTO();
+        dto.setId(this.id);
+        dto.setComment(this.comment);
+        dto.setAssessment(this.assessment);
+        dto.setTeacherId(this.teacher.getId());
+        dto.setClientId(this.client.getId());
+        return dto;
+    }
+
+    public Assessment(AssessmentDTO dto){
+        this.id = dto.getId();
+        this.comment = dto.getComment();
+        this.assessment = dto.getAssessment();
+        this.teacher = new Teacher();
+        this.teacher.setId(dto.getTeacherId());
+        this.client = new Client();
+        this.client.setId(dto.getClientId());
     }
 
     public Assessment(String comment, double assessment, Teacher teacher, Client client) {

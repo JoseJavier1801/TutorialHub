@@ -1,18 +1,15 @@
 package com.josejavier.Controller;
 
 import com.josejavier.model.Classroom;
-import com.josejavier.model.ClassroomDTO;
-import com.josejavier.model.Teacher;
+import com.josejavier.DTO.ClassroomDTO;
 import com.josejavier.service.ClassroomService;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.geom.GeometryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/classrooms")
@@ -38,11 +35,51 @@ public class ClassroomController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Classroom> updateClassroom(@PathVariable("id") int id, @RequestBody Classroom classroom) {
-        classroom.setId(id);
-        Classroom updatedClassroom = classroomService.createOrUpdateClassroom(classroom);
-        return ResponseEntity.ok(updatedClassroom);
+    public ResponseEntity<ClassroomDTO> updateClassroom(@PathVariable("id") int id, @RequestBody ClassroomDTO classroomDTO) {
+        try {
+            // Verificar si el aula con la ID dada existe
+            Classroom existingClassroom = classroomService.getClassroomById(id);
+
+            if (existingClassroom == null) {
+                // Manejar la situación en la que el aula no existe
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+            }
+
+            // Actualizar todos los campos del aula existente con los valores proporcionados en el DTO
+            existingClassroom.setDescription(classroomDTO.getDescription());
+            existingClassroom.setType(classroomDTO.getType());
+            existingClassroom.setCategory(classroomDTO.getCategory());
+            existingClassroom.setDirection(classroomDTO.getDirection());
+            existingClassroom.setPostalCode(classroomDTO.getPostalCode());
+            existingClassroom.setProvince(classroomDTO.getProvince());
+            existingClassroom.setLocalidad(classroomDTO.getLocalidad());
+
+            // Guardar la actualización en el servicio
+            Classroom updatedClassroom = classroomService.createOrUpdateClassroom(existingClassroom);
+
+            // Crear y devolver el DTO actualizado
+            ClassroomDTO updatedClassroomDTO = new ClassroomDTO();
+            updatedClassroomDTO.setId(updatedClassroom.getId());
+            updatedClassroomDTO.setDescription(updatedClassroom.getDescription());
+            updatedClassroomDTO.setType(updatedClassroom.getType());
+            updatedClassroomDTO.setCategory(updatedClassroom.getCategory());
+            updatedClassroomDTO.setDirection(updatedClassroom.getDirection());
+            updatedClassroomDTO.setPostalCode(updatedClassroom.getPostalCode());
+            updatedClassroomDTO.setProvince(updatedClassroom.getProvince());
+            updatedClassroomDTO.setLocalidad(updatedClassroom.getLocalidad());
+
+
+            return ResponseEntity.ok(updatedClassroomDTO);
+        } catch (RuntimeException e) {
+            // Manejar la excepción apropiadamente, por ejemplo, registrarla
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
+
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteClassroom(@PathVariable("id") int id) {
@@ -51,14 +88,22 @@ public class ClassroomController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Classroom>> getAllClassrooms() {
+    public ResponseEntity<List<ClassroomDTO>> getAllClassrooms() {
         List<Classroom> classrooms = classroomService.getAllClassrooms();
-        return ResponseEntity.ok(classrooms);
+
+        // Convertir la lista de entidades Classroom a una lista de DTOs
+        List<ClassroomDTO> classroomDTOs = classrooms.stream()
+                .map(Classroom::toDTO)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(classroomDTOs);
     }
 
+
     @GetMapping("/{id}")
-    public ResponseEntity<Classroom> getClassroomById(@PathVariable("id") int id) {
+    public ResponseEntity<ClassroomDTO> getClassroomById(@PathVariable("id") int id) {
         Classroom classroom = classroomService.getClassroomById(id);
-        return ResponseEntity.ok(classroom);
+        ClassroomDTO classroomDTO = classroom.toDTO();
+        return ResponseEntity.ok(classroomDTO);
     }
 }
