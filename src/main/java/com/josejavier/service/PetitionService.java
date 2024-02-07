@@ -17,10 +17,8 @@ public class PetitionService {
 
     @Autowired
     private  PetitionRepository petitionRepository;
-
     @Autowired
     private  ClientRepository clientRepository;
-
     @Autowired
     private ClassroomRepository classroomRepository;
 

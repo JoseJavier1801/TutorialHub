@@ -60,7 +60,6 @@ public class PetitionController {
             updatedPetitionDTO.setState(updatedPetition.getState());
             updatedPetitionDTO.setDate(updatedPetition.getDate());
 
-
             return ResponseEntity.ok(updatedPetitionDTO);
         } catch (RuntimeException e) {
            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
