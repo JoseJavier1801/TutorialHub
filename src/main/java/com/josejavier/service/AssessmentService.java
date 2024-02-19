@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class AssessmentService {
     @Autowired
-  private AssessmentRepository assessmentRepository;
+    private AssessmentRepository assessmentRepository;
 
     @Autowired
     private TeacherService teacherService;
@@ -27,29 +27,29 @@ public class AssessmentService {
     private TeacherRepository teacherRepository;
 
     public Assessment createOrUpdateAssement(Assessment assessment) {
-       Assessment newAssessment = null;
-       try{
-           //verifica si el cliente y el profesor existen antes de guardar la valoracion
-           Integer teacherId = assessment.getTeacher() != null ? assessment.getTeacher().getId() : null;
-           Integer clientId = assessment.getClient() != null ? assessment.getClient().getId() : null;
+        Assessment newAssessment = null;
+        try{
+            //verifica si el cliente y el profesor existen antes de guardar la valoracion
+            Integer teacherId = assessment.getTeacher() != null ? assessment.getTeacher().getId() : null;
+            Integer clientId = assessment.getClient() != null ? assessment.getClient().getId() : null;
 
-           if(teacherId == null || teacherService.getTeacherById(teacherId) == null){
-               //el profesor no existe, puedes manejarlo por tus necesidades
-               throw new RuntimeException("Teacher does not exist");
-           }
+            if(teacherId == null || teacherService.getTeacherById(teacherId) == null){
+                //el profesor no existe, puedes manejarlo por tus necesidades
+                throw new RuntimeException("Teacher does not exist");
+            }
 
-           if(clientId == null || clientService.getClientById(clientId) == null){
-               //el cliente no existe, puedes manejarlo por tus necesidades
-               throw new RuntimeException("Client does not exist");
-           }
+            if(clientId == null || clientService.getClientById(clientId) == null){
+                //el cliente no existe, puedes manejarlo por tus necesidades
+                throw new RuntimeException("Client does not exist");
+            }
 
-           newAssessment = assessmentRepository.save(assessment);
-       }catch (Exception e){
-           e.printStackTrace();
-           throw new RuntimeException("Error creating/updating assessment", e);
-       }
-       return newAssessment;
-   }
+            newAssessment = assessmentRepository.save(assessment);
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new RuntimeException("Error creating/updating assessment", e);
+        }
+        return newAssessment;
+    }
 
 
     public List<Assessment> getAllAssessments() {
@@ -71,15 +71,16 @@ public class AssessmentService {
     }
 
     public Assessment getAssessmentById(int id) {
-       try{
-           Optional<Assessment> optionalAssessment = assessmentRepository.findById(id);
-           return optionalAssessment.orElse(null);
-       }catch (Exception e){
-           throw new RuntimeException("Error retrieving assessment by ID", e);
-       }
+        try{
+            Optional<Assessment> optionalAssessment = assessmentRepository.findById(id);
+            return optionalAssessment.orElse(null);
+        }catch (Exception e){
+            throw new RuntimeException("Error retrieving assessment by ID", e);
+        }
     }
 
     public List<Assessment> getAssessmentsByTeacherId(int teacherId) {
+
         return assessmentRepository.findByTeacherId(teacherId);
     }
 

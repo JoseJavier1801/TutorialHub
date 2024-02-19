@@ -38,7 +38,7 @@ public class ClassroomController {
     public ResponseEntity<ClassroomDTO> updateClassroom(@PathVariable("id") int id, @RequestBody ClassroomDTO classroomDTO) {
         try {
             // Verificar si el aula con la ID dada existe
-            Classroom existingClassroom = classroomService.getClassroomById(id);
+            Classroom existingClassroom = classroomService.getClassroomById(Integer.valueOf(id));
 
             if (existingClassroom == null) {
                 // Manejar la situación en la que el aula no existe
@@ -83,7 +83,7 @@ public class ClassroomController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteClassroom(@PathVariable("id") int id) {
-        classroomService.deleteClassroom(id);
+        classroomService.deleteClassroom(Integer.valueOf(id));
         return ResponseEntity.ok("Classroom deleted successfully");
     }
 
@@ -102,8 +102,22 @@ public class ClassroomController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ClassroomDTO> getClassroomById(@PathVariable("id") int id) {
-        Classroom classroom = classroomService.getClassroomById(id);
+        Classroom classroom = classroomService.getClassroomById(Integer.valueOf(id));
         ClassroomDTO classroomDTO = classroom.toDTO();
         return ResponseEntity.ok(classroomDTO);
     }
+    @GetMapping("/userClassrooms/{userId}")
+    public List<Object[]> getUserClassrooms(@PathVariable Integer userId) {
+        return classroomService.getUserClassroomDetails(userId);
+    }
+    @GetMapping("/teacher/{teacherId}")
+    public List<ClassroomDTO> getClassroomsByTeacherId(@PathVariable("teacherId") Integer teacherId) {
+
+        return classroomService.getClassroomsByTeacherId(teacherId);
+    }
+    @GetMapping("/details")
+    public List<ClassroomDTO> getAllClassroomDetails() {
+        return classroomService.getAllClassroomDetails();
+    }
+
 }

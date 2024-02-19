@@ -28,7 +28,7 @@ public class Teacher extends Client {
     public Teacher() {
     }
 
-    public Teacher(int id, String photo, String name, String username, String mail, String password, int age, LocalDate date, String phone, String title, String biography) {
+    public Teacher(int id, byte[] photo, String name, String username, String mail, String password, int age, LocalDate date, String phone, String title, String biography) {
         super(id, photo, name, username, mail, password, date, phone);
         this.title = title;
         this.biography = biography;

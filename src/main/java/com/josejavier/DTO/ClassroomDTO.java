@@ -1,5 +1,6 @@
 package com.josejavier.DTO;
 
+import com.josejavier.model.Teacher;
 import jakarta.persistence.Column;
 import org.locationtech.jts.geom.Point;
 
@@ -21,8 +22,11 @@ public class ClassroomDTO {
 
     private String province;
     private String localidad;
+    private String duration;
     private int teacherID;
-    public ClassroomDTO(Integer id, String description, String type, String category, Double lat, Double lng, String direction, String postalCode, String province, String localidad,int teacherID) {
+    private Teacher teacher;
+
+    public ClassroomDTO(Integer id, String description, String type, String category, Double lat, Double lng, String direction, String postalCode, String province, String localidad,String duration ,int teacherID) {
         this.id = id;
         this.description = description;
         this.type = type;
@@ -34,6 +38,7 @@ public class ClassroomDTO {
         this.province = province;
         this.localidad = localidad;
         this.teacherID = teacherID;
+        this.duration=duration;
     }
 
     public ClassroomDTO() {
@@ -124,5 +129,31 @@ public class ClassroomDTO {
 
     public void setTeacherID(int teacherID) {
         this.teacherID = teacherID;
+    }
+    public void setLocation(String location) {
+        // Puedes hacer cualquier procesamiento adicional aquí si es necesario
+        // Por ejemplo, si location es una cadena en formato específico que necesitas analizar
+        // Para este ejemplo, no necesitamos procesamiento adicional, simplemente establecemos lat y lng
+
+        // Supongamos que location es una cadena en formato "latitud,longitud"
+        String[] parts = location.split(",");
+        if (parts.length == 2) {
+            this.lat = (Double) Double.parseDouble(parts[0]);
+            this.lng = (Double) Double.parseDouble(parts[1]);
+        } else {
+            // Manejo de errores si la cadena no está en el formato esperado
+            // Puedes lanzar una excepción o realizar otra acción apropiada aquí
+        }
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 }

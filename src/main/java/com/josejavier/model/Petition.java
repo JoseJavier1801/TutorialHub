@@ -14,7 +14,7 @@ public class Petition {
     @Column(name = "message", length = 256, nullable = false)
     private String message;
 
-    @Column(name = "state", nullable = false)
+    @Column(name = "state")
     private String state;
 
     @Column(name = "Date", columnDefinition = "DATE")
