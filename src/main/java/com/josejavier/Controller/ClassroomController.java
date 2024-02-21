@@ -21,20 +21,14 @@ public class ClassroomController {
     @PostMapping
     public ResponseEntity<ClassroomDTO> createClassroom(@RequestBody ClassroomDTO classroom) {
         try {
-            // Crear una instancia de Classroom a partir de ClassroomDTO
-            Classroom classroomToCreate = new Classroom();
-            classroomToCreate.setDescription(classroom.getDescription());
-            classroomToCreate.setType(classroom.getType());
-            classroomToCreate.setCategory(classroom.getCategory());
+            Classroom classroomToCreate = new Classroom(classroom);
             // Asignar el ID del profesor directamente si está presente
             if (classroom.getTeacherID() != 0) {
                 Teacher teacher = new Teacher();
                 teacher.setId(classroom.getTeacherID());
                 classroomToCreate.setTeacher(teacher);
             }
-            // Guardar la nueva instancia de Classroom
             Classroom createdClassroom = classroomService.createOrUpdateClassroom(classroomToCreate);
-            // Actualizar el ID en el DTO
             classroom.setId(createdClassroom.getId());
             return ResponseEntity.ok(classroom);
         } catch (RuntimeException e) {
@@ -45,6 +39,8 @@ public class ClassroomController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+
 
 
     @PutMapping("/{id}")
