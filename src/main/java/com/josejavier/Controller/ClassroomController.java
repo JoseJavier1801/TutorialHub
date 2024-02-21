@@ -2,6 +2,7 @@ package com.josejavier.Controller;
 
 import com.josejavier.model.Classroom;
 import com.josejavier.DTO.ClassroomDTO;
+import com.josejavier.model.Teacher;
 import com.josejavier.service.ClassroomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,20 @@ public class ClassroomController {
     @PostMapping
     public ResponseEntity<ClassroomDTO> createClassroom(@RequestBody ClassroomDTO classroom) {
         try {
-            Classroom classroomToCreate = new Classroom(classroom);
+            // Crear una instancia de Classroom a partir de ClassroomDTO
+            Classroom classroomToCreate = new Classroom();
+            classroomToCreate.setDescription(classroom.getDescription());
+            classroomToCreate.setType(classroom.getType());
+            classroomToCreate.setCategory(classroom.getCategory());
+            // Asignar el ID del profesor directamente si está presente
+            if (classroom.getTeacherID() != 0) {
+                Teacher teacher = new Teacher();
+                teacher.setId(classroom.getTeacherID());
+                classroomToCreate.setTeacher(teacher);
+            }
+            // Guardar la nueva instancia de Classroom
             Classroom createdClassroom = classroomService.createOrUpdateClassroom(classroomToCreate);
+            // Actualizar el ID en el DTO
             classroom.setId(createdClassroom.getId());
             return ResponseEntity.ok(classroom);
         } catch (RuntimeException e) {
@@ -32,6 +45,7 @@ public class ClassroomController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<ClassroomDTO> updateClassroom(@PathVariable("id") int id, @RequestBody ClassroomDTO classroomDTO) {
