@@ -44,6 +44,8 @@ public class Classroom implements Serializable {
 
     @Column(name = "localidad")
     private String localidad;
+    @Column(name="duration")
+    private String duration;
 
     @ManyToOne
     @JoinColumn(name = "id_teacher", nullable = false)
@@ -63,19 +65,20 @@ public class Classroom implements Serializable {
         this.postalCode = dto.getPostalCode();
         this.province = dto.getProvince();
         this.localidad = dto.getLocalidad();
-        this.teacher = new Teacher();
-        this.teacher.setId(dto.getTeacherID());
+        this.province=dto.getProvince();
+        this.duration=dto.getDuration();
+        this.teacher=dto.getTeacher();
 
     }
 
 
 
     public Classroom() {
-        this(null, "", "", "", null, "", "", "", "", new Teacher());
+        this(null, "", "", "", null, "", "", "", "", new Teacher(),"");
     }
 
     public Classroom(Integer id, String description, String type, String category, Point location,
-                     String direction, String postalCode, String province, String localidad, Teacher teacher) {
+                     String direction, String postalCode, String province, String localidad, Teacher teacher,String duration) {
         this.id = id;
         this.description = description;
         this.type = type;
@@ -86,6 +89,7 @@ public class Classroom implements Serializable {
         this.province = province;
         this.localidad = localidad;
         this.teacher = teacher;
+        this.duration=duration;
     }
 
     // Getters and setters
@@ -127,13 +131,7 @@ public class Classroom implements Serializable {
     }
 
     public void setLocation(Point location) {
-        //org.springframework.data.geo.
-        /*GeometryFactory factory = new GeometryFactory();
-        org.locationtech.jts.geom.Point point = factory.createPoint(new Coordinate(location.getX(), location.getY()));
-        System.out.println(location);
-        System.out.println(point);
-        System.out.println("SETTER");
-        this.location = point;*/
+
         this.location = location;
     }
 
@@ -183,13 +181,25 @@ public class Classroom implements Serializable {
         dto.setDescription(this.description);
         dto.setType(this.type);
         dto.setCategory(this.category);
-        dto.setLat(this.location.getY());
-        dto.setLng(this.location.getX());
+        dto.setLat(Double.valueOf(this.location.getY()));
+        dto.setLng(Double.valueOf(this.location.getX()));
         dto.setDirection(this.direction);
         dto.setPostalCode(this.postalCode);
         dto.setProvince(this.province);
         dto.setLocalidad(this.localidad);
         dto.setTeacherID(this.teacher.getId());
+        dto.setDuration(this.duration);
         return dto;
+    }
+
+    public String getDuration() {
+        return duration;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+    public void setTeacherID(Integer teacherID) {
+        this.teacher.setId(teacherID);
     }
 }

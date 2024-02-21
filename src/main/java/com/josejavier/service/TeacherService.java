@@ -3,6 +3,7 @@ package com.josejavier.service;
 import com.josejavier.model.Teacher;
 import com.josejavier.repository.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,23 +40,37 @@ public class TeacherService {
                 existingTeacher.setName(teacher.getName());
                 existingTeacher.setDate(teacher.getDate());
                 existingTeacher.setUsername(teacher.getUsername());
-                existingTeacher.setPassword(teacher.getPassword());
                 existingTeacher.setMail(teacher.getMail());
                 existingTeacher.setPhone(teacher.getPhone());
                 existingTeacher.setPhoto(teacher.getPhoto());
                 existingTeacher.setTitle(teacher.getTitle());
                 existingTeacher.setBiography(teacher.getBiography());
+
+                // Hashear la contraseña antes de guardarla
+                String hashedPassword = hashPassword(teacher.getPassword());
+                existingTeacher.setPassword(hashedPassword);
+
                 end = repo.save(existingTeacher);
             } else {
                 throw new RuntimeException("Teacher not found with id: " + teacher.getId());
             }
         } else { // insert
+            // Hashear la contraseña antes de guardarla
+            String hashedPassword = hashPassword(teacher.getPassword());
+            teacher.setPassword(hashedPassword);
+
             end = repo.save(teacher);
         }
 
         return end;
     }
 
+    // Método para hashear la contraseña
+    private String hashPassword(String password) {
+        String hash=org.apache.commons.codec.digest.DigestUtils.sha256Hex(password);
+        System.out.println(hash);
+        return  hash;
+    }
     public void deleteTeacher(int id) {
         Optional<Teacher> result = repo.findById(id);
         if (result.isPresent()) {
@@ -64,5 +79,11 @@ public class TeacherService {
             throw new RuntimeException("Teacher not found with id: " + id);
         }
     }
+    public Teacher findByUsernameAndPassword(String username, String password) {
+        return repo.findByUsernameAndPassword(username, password);
+    }
+
+
+
 }
 

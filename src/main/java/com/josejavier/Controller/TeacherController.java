@@ -3,6 +3,7 @@ package com.josejavier.Controller;
 
 
 import com.josejavier.model.Teacher;
+import com.josejavier.repository.TeacherRepository;
 import com.josejavier.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,4 +48,15 @@ public class TeacherController {
         Teacher end=service.createOrUpdateTeacher(teacher);
         return ResponseEntity.ok(end);
     }
+    @GetMapping("/login")
+    public ResponseEntity<Teacher> loginTeacher(@RequestParam("username") String username, @RequestParam("password") String password) {
+        Teacher teacher = service.findByUsernameAndPassword(username, password);
+        if (teacher != null) {
+            return ResponseEntity.ok(teacher);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+
 }

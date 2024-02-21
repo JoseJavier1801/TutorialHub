@@ -3,6 +3,7 @@ package com.josejavier.service;
 import com.josejavier.model.Client;
 import com.josejavier.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,30 +48,42 @@ public class ClientService {
      * @return
      */
 
-    public Client CreateClient(Client client) {
-        Client end;
-        if(client.getId() != 0) {//update
+    public Client createClient(Client client) {
+        // Si el cliente tiene un ID diferente de 0, significa que es una actualización
+        if (client.getId() != 0) {
             Optional<Client> result = repo.findById(client.getId());
-            if(result.isPresent()) {
-                Client u=result.get();
+            if (result.isPresent()) {
+                Client u = result.get();
+                // Actualizar los campos del cliente con los nuevos valores
                 u.setPhoto(client.getPhoto());
                 u.setName(client.getName());
                 u.setUsername(client.getUsername());
                 u.setMail(client.getMail());
-                u.setPassword(client.getPassword());
+                // Hashear la contraseña antes de guardarla
+                String hashedPassword = hashPassword(client.getPassword());
+                u.setPassword(hashedPassword);
                 u.setDate(client.getDate());
                 u.setPhone(client.getPhone());
-                end = repo.save(u);
-            }else {
+                // Guardar el cliente actualizado en la base de datos
+                return repo.save(u);
+            } else {
                 throw new RuntimeException("User not found with id: " + client.getId());
             }
-        }else { //insert
-            end = repo.save(client);
+        } else { // Si el cliente tiene ID igual a 0, significa que es un nuevo cliente a insertar
+            // Hashear la contraseña antes de guardarla
+            String hashedPassword = hashPassword(client.getPassword());
+            client.setPassword(hashedPassword);
+            // Guardar el nuevo cliente en la base de datos
+            return repo.save(client);
         }
-        return end;
-
     }
 
+    // Método para hashear la contraseña
+    private String hashPassword(String password) {
+        String hash=org.apache.commons.codec.digest.DigestUtils.sha256Hex(password);
+        System.out.println(hash);
+        return  hash;
+    }
     /**
      * Deletes a user from the database by id or throws an exception if not found
      *
@@ -86,4 +99,18 @@ public class ClientService {
             throw new RuntimeException("User not found with id: " + id);
         }
     }
+    public Client findByUsernameAndPassword(String username, String password) {
+    System.out.println(username);
+    System.out.println(password);
+        return repo.findbyUsernameAndPassword(username, password);
+    }
+    public Client findById(int id) {
+        Optional<Client> result = repo.findById(id);
+        return result.orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+    }
+    public Client getClientByUsername(String username) {
+        return repo.findByUsername(username);
+    }
+
+
 }

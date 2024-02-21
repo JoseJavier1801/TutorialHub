@@ -62,7 +62,7 @@ public class PetitionController {
 
             return ResponseEntity.ok(updatedPetitionDTO);
         } catch (RuntimeException e) {
-           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }   catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
@@ -86,10 +86,27 @@ public class PetitionController {
         return ResponseEntity.ok(petitionDTOs);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PetitionDTO> getPetitionById(@PathVariable("id") int id) {
-        Petition petition = petitionService.getPetitionById(id);
-        PetitionDTO petitionDTO = petition.toDTO();
-        return ResponseEntity.ok(petitionDTO);
+    @GetMapping("/{clientId}")
+    public List<Petition> getPetitionsByClientId(@PathVariable("clientId") int clientId) {
+        return petitionService.getPetitionsByClientIdAndState(clientId);
     }
+    @GetMapping("/teacher/{teacherId}")
+    public ResponseEntity<List<Petition>> getPetitionsByTeacher(@PathVariable("teacherId") int teacherId) {
+        System.out.println("id del docente: " + teacherId);
+        List<Petition> petitions = petitionService.getMyPetitionTeacher(teacherId);
+        if (petitions.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(petitions);
+    }
+    @PutMapping("/petitions/{id}")
+    public void updatePetitionStateAndMessage(@PathVariable("id") Integer petitionId,
+                                              @RequestParam("state") String newState,
+                                              @RequestParam("message") String newMessage) {
+        petitionService.updatePetitionStateAndMessage(petitionId, newState, newMessage);
+    }
+
+
+
+
 }

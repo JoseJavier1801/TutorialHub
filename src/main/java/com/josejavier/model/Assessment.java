@@ -13,7 +13,7 @@ public class Assessment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private int id;
+    private Integer id;
 
     @Column(name = "Comment")
     private String comment;
@@ -32,7 +32,7 @@ public class Assessment {
     public Assessment() {
     }
 
-    public AssessmentDTO toDTO(){
+    public AssessmentDTO toDTO() {
         AssessmentDTO dto = new AssessmentDTO();
         dto.setId(this.id);
         dto.setComment(this.comment);
@@ -41,6 +41,7 @@ public class Assessment {
         dto.setClientId(this.client.getId());
         return dto;
     }
+
 
     public Assessment(AssessmentDTO dto){
         this.id = dto.getId();
@@ -63,7 +64,7 @@ public class Assessment {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

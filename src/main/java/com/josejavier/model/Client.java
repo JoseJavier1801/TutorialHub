@@ -15,8 +15,8 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "photo")
-    private String photo;
+    @Column(name = "photo", columnDefinition = "bytea") // Cambia el tipo de dato de la columna photo a bytea
+    private byte[] photo; // Cambia el tipo de dato de la propiedad photo a byte[]
 
     @Column(name = "name")
     private String name;
@@ -43,7 +43,7 @@ public class Client {
 
     }
 
-    public Client(int id, String photo, String name, String username, String mail, String password, LocalDate date, String phone) {
+    public Client(int id, byte[] photo, String name, String username, String mail, String password, LocalDate date, String phone) {
         this.id = id;
         this.photo = photo;
         this.name = name;
@@ -53,7 +53,6 @@ public class Client {
         this.date = date;
         this.phone = phone;
     }
-
 
     // Getters and setters
 
@@ -65,11 +64,11 @@ public class Client {
         this.id = id;
     }
 
-    public String getPhoto() {
+    public byte[] getPhoto() {
         return photo;
     }
 
-    public void setPhoto(String photo) {
+    public void setPhoto(byte[] photo) {
         this.photo = photo;
     }
 
@@ -104,7 +103,6 @@ public class Client {
     public void setPassword(String password) {
         this.password = password;
     }
-
 
     public LocalDate getDate() {
         return date;

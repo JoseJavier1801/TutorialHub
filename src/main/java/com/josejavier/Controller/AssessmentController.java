@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,12 +30,28 @@ public class AssessmentController {
         return ResponseEntity.ok(assessmentDTOs);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AssessmentDTO> getAssessmentById(@PathVariable("id") int id) {
-        Assessment assessment = assessmentService.getAssessmentById(id);
-        AssessmentDTO assessmentDTO= assessment.toDTO();
-        return ResponseEntity.ok(assessmentDTO);
+    @GetMapping("/{teacherId}")
+    public ResponseEntity<List<AssessmentDTO>> getAssessmentById(@PathVariable("teacherId") Integer teacherId) {
+        System.out.println("idTeacher: " + teacherId);
+        List<Assessment> assessments = assessmentService.getAssessmentsByTeacherId(teacherId); // Obtener la lista de evaluaciones
+
+        // Imprimir los datos de las Assessment encontradas
+        if (assessments != null && !assessments.isEmpty()) {
+            List<AssessmentDTO> assessmentDTOs = new ArrayList<>();
+            for (Assessment assessment : assessments) {
+                System.out.println("Assessment encontrada: " + assessment.toString());
+                AssessmentDTO assessmentDTO = assessment.toDTO();
+                assessmentDTOs.add(assessmentDTO);
+            }
+            return ResponseEntity.ok(assessmentDTOs);
+        } else {
+            // Manejo si no se encuentran evaluaciones o si la lista está vacía
+            return ResponseEntity.notFound().build();
+        }
     }
+
+
+
 
     @PostMapping
     public ResponseEntity<Assessment> createAssessment(@RequestBody AssessmentDTO assessmentDTO) {
@@ -52,11 +69,11 @@ public class AssessmentController {
 
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<AssessmentDTO> updateAssessment(@PathVariable(name = "id") Integer id, @RequestBody AssessmentDTO assessmentDTO) {
+    @PutMapping("/{teacherId}")
+    public ResponseEntity<AssessmentDTO> updateAssessment(@PathVariable(name = "teacherId") Integer teacherId, @RequestBody AssessmentDTO assessmentDTO) {
         try{
             //verifica si la valoracion con la id dada existe
-            Assessment existingAssessment = assessmentService.getAssessmentById(id);
+            Assessment existingAssessment = assessmentService.getAssessmentById(teacherId);
             if(existingAssessment == null){
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
             }
@@ -88,8 +105,5 @@ public class AssessmentController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/teacher/{teacherId}")
-    public List<Assessment> getAssessmentsByTeacherId(@PathVariable int teacherId) {
-        return assessmentService.getAssessmentsByTeacherId(teacherId);
-    }
+
 }

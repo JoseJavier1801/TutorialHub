@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/classrooms")
@@ -38,7 +37,7 @@ public class ClassroomController {
     public ResponseEntity<ClassroomDTO> updateClassroom(@PathVariable("id") int id, @RequestBody ClassroomDTO classroomDTO) {
         try {
             // Verificar si el aula con la ID dada existe
-            Classroom existingClassroom = classroomService.getClassroomById(id);
+            Classroom existingClassroom = classroomService.getClassroomById(Integer.valueOf(id));
 
             if (existingClassroom == null) {
                 // Manejar la situación en la que el aula no existe
@@ -83,27 +82,39 @@ public class ClassroomController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteClassroom(@PathVariable("id") int id) {
-        classroomService.deleteClassroom(id);
+        classroomService.deleteClassroom(Integer.valueOf(id));
         return ResponseEntity.ok("Classroom deleted successfully");
     }
 
-    @GetMapping
-    public ResponseEntity<List<ClassroomDTO>> getAllClassrooms() {
-        List<Classroom> classrooms = classroomService.getAllClassrooms();
-
-        // Convertir la lista de entidades Classroom a una lista de DTOs
-        List<ClassroomDTO> classroomDTOs = classrooms.stream()
-                .map(Classroom::toDTO)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(classroomDTOs);
-    }
 
 
     @GetMapping("/{id}")
     public ResponseEntity<ClassroomDTO> getClassroomById(@PathVariable("id") int id) {
-        Classroom classroom = classroomService.getClassroomById(id);
+        Classroom classroom = classroomService.getClassroomById(Integer.valueOf(id));
         ClassroomDTO classroomDTO = classroom.toDTO();
         return ResponseEntity.ok(classroomDTO);
     }
+    @GetMapping("/userClassrooms/{userId}")
+    public List<Object[]> getUserClassrooms(@PathVariable Integer userId) {
+        return classroomService.getUserClassroomDetails(userId);
+    }
+    @GetMapping("/teacher/{teacherId}")
+    public List<ClassroomDTO> getClassroomsByTeacherId(@PathVariable("teacherId") Integer teacherId) {
+
+        return classroomService.getClassroomsByTeacherId(teacherId);
+    }
+    @GetMapping("/details")
+    public List<ClassroomDTO> getAllClassroomDetails() {
+        List<ClassroomDTO> result = classroomService.getAllClassroomDetails();
+        System.out.println(result);
+        return result;
+    }
+    @GetMapping("/seeker")
+    public List<ClassroomDTO> searchClassrooms(
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String localidad,
+            @RequestParam(required = false) String postalCode) {
+        return classroomService.getAllClassroomSeeker(category, localidad, postalCode);
+    }
+
 }
