@@ -24,6 +24,7 @@ public class ClassroomDTO {
     private String localidad;
     private String duration;
     private int teacherID;
+
     private Teacher teacher;
 
     public ClassroomDTO(Integer id, String description, String type, String category, Double lat, Double lng, String direction, String postalCode, String province, String localidad,String duration ,int teacherID) {
@@ -153,7 +154,30 @@ public class ClassroomDTO {
     public void setDuration(String duration) {
         this.duration = duration;
     }
+
     public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
+        this.teacher=teacher;
+    }
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassroomDTO{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", type='" + type + '\'' +
+                ", category='" + category + '\'' +
+                ", lat=" + lat +
+                ", lng=" + lng +
+                ", direction='" + direction + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", province='" + province + '\'' +
+                ", localidad='" + localidad + '\'' +
+                ", duration='" + duration + '\'' +
+                ", teacherID=" + teacherID +
+                ", teacher=" + teacher +
+                '}';
     }
 }

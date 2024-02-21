@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/classrooms")
@@ -87,17 +86,6 @@ public class ClassroomController {
         return ResponseEntity.ok("Classroom deleted successfully");
     }
 
-    @GetMapping
-    public ResponseEntity<List<ClassroomDTO>> getAllClassrooms() {
-        List<Classroom> classrooms = classroomService.getAllClassrooms();
-
-        // Convertir la lista de entidades Classroom a una lista de DTOs
-        List<ClassroomDTO> classroomDTOs = classrooms.stream()
-                .map(Classroom::toDTO)
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(classroomDTOs);
-    }
 
 
     @GetMapping("/{id}")
@@ -117,7 +105,16 @@ public class ClassroomController {
     }
     @GetMapping("/details")
     public List<ClassroomDTO> getAllClassroomDetails() {
-        return classroomService.getAllClassroomDetails();
+        List<ClassroomDTO> result = classroomService.getAllClassroomDetails();
+        System.out.println(result);
+        return result;
+    }
+    @GetMapping("/seeker")
+    public List<ClassroomDTO> searchClassrooms(
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String localidad,
+            @RequestParam(required = false) String postalCode) {
+        return classroomService.getAllClassroomSeeker(category, localidad, postalCode);
     }
 
 }

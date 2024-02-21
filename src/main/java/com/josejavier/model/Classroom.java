@@ -65,10 +65,9 @@ public class Classroom implements Serializable {
         this.postalCode = dto.getPostalCode();
         this.province = dto.getProvince();
         this.localidad = dto.getLocalidad();
-        this.teacher = new Teacher();
-        this.teacher.setId(dto.getTeacherID());
         this.province=dto.getProvince();
         this.duration=dto.getDuration();
+        this.teacher=dto.getTeacher();
 
     }
 
@@ -199,5 +198,8 @@ public class Classroom implements Serializable {
 
     public void setDuration(String duration) {
         this.duration = duration;
+    }
+    public void setTeacherID(Integer teacherID) {
+        this.teacher.setId(teacherID);
     }
 }

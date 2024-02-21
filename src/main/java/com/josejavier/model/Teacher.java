@@ -50,4 +50,14 @@ public class Teacher extends Client {
     public void setBiography(String biography) {
         this.biography = biography;
     }
+
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "title='" + title + '\'' +
+                ", biography='" + biography + '\'' +
+                ", classrooms=" + classrooms +
+                ", assessments=" + assessments +
+                '}';
+    }
 }
