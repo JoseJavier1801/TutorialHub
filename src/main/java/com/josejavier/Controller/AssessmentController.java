@@ -20,7 +20,10 @@ public class AssessmentController {
     @Autowired
     private  AssessmentService assessmentService;
 
-
+    /**
+     * envía una lista de todas las evaluaciones existentes en el sistema a través de una respuesta HTTP
+     * @return List<AssessmentDTO>
+     */
     @GetMapping
     public ResponseEntity<List<AssessmentDTO>> getAllAssessments() {
         List<Assessment> assessments = assessmentService.getAllAssessments();
@@ -30,9 +33,15 @@ public class AssessmentController {
         return ResponseEntity.ok(assessmentDTOs);
     }
 
+    /**
+     *  envía una lista de evaluaciones de un profesor a través de una respuesta HTTP
+     * @param teacherId
+     * @return List<AssessmentDTO>
+     */
+
     @GetMapping("/{teacherId}")
     public ResponseEntity<List<AssessmentDTO>> getAssessmentById(@PathVariable("teacherId") Integer teacherId) {
-        System.out.println("idTeacher: " + teacherId);
+
         List<Assessment> assessments = assessmentService.getAssessmentsByTeacherId(teacherId); // Obtener la lista de evaluaciones
 
         // Imprimir los datos de las Assessment encontradas
@@ -51,8 +60,11 @@ public class AssessmentController {
     }
 
 
-
-
+    /**
+     *  envía una evaluación a través de una respuesta HTTP
+     * @param assessmentDTO
+     * @return AssessmentDTO
+     */
     @PostMapping
     public ResponseEntity<Assessment> createAssessment(@RequestBody AssessmentDTO assessmentDTO) {
         try{
@@ -68,6 +80,13 @@ public class AssessmentController {
         }
 
     }
+
+    /**
+     *  Actualiza una evaluación existente en el sistema a través de una respuesta HTTP
+     * @param teacherId
+     * @param assessmentDTO
+     * @return AssessmentDTO
+     */
 
     @PutMapping("/{teacherId}")
     public ResponseEntity<AssessmentDTO> updateAssessment(@PathVariable(name = "teacherId") Integer teacherId, @RequestBody AssessmentDTO assessmentDTO) {
@@ -99,6 +118,11 @@ public class AssessmentController {
 
     }
 
+    /**
+     *  Elimina una evaluación existente en el sistema a través de una respuesta HTTP
+     * @param id
+     * @return ResponseEntity<Void>
+     */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAssessment(@PathVariable(name = "id") Integer id) {
         assessmentService.deleteAssessment(id);

@@ -18,6 +18,11 @@ public class ClassroomController {
     @Autowired
     private ClassroomService classroomService;
 
+    /**
+     *  Método para crear un aula en la base de datos a través de una respuesta HTTP
+     * @param classroom
+     * @return ResponseEntity
+     */
     @PostMapping
     public ResponseEntity<ClassroomDTO> createClassroom(@RequestBody ClassroomDTO classroom) {
         try {
@@ -40,7 +45,12 @@ public class ClassroomController {
         }
     }
 
-
+    /**
+     *  Método para actualizar un aula existente en la base de datos a través de una respuesta HTTP
+     * @param id
+     * @param classroomDTO
+     * @return ResponseEntity
+     */
 
 
     @PutMapping("/{id}")
@@ -88,7 +98,11 @@ public class ClassroomController {
         }
     }
 
-
+    /**
+     *  Método para borrar un aula existente en la base de datos a través de una respuesta HTTP
+     * @param id
+     * @return ResponseEntity
+     */
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteClassroom(@PathVariable("id") int id) {
@@ -96,7 +110,11 @@ public class ClassroomController {
         return ResponseEntity.ok("Classroom deleted successfully");
     }
 
-
+    /**
+     *  Método para obtener un aula existente en la base de datos a través de una respuesta HTTP
+     * @param id
+     * @return
+     */
 
     @GetMapping("/{id}")
     public ResponseEntity<ClassroomDTO> getClassroomById(@PathVariable("id") int id) {
@@ -104,27 +122,54 @@ public class ClassroomController {
         ClassroomDTO classroomDTO = classroom.toDTO();
         return ResponseEntity.ok(classroomDTO);
     }
+
+    /**
+     *  Método para obtener todas las aulas existentes en la base de datos a través de una respuesta HTTP
+     * @param userId
+     * @return List
+     */
     @GetMapping("/userClassrooms/{userId}")
     public List<Object[]> getUserClassrooms(@PathVariable Integer userId) {
         return classroomService.getUserClassroomDetails(userId);
     }
+
+    /**
+     *  Método para obtener todas las aulas existentes en la base de datos a través de una respuesta HTTP
+     * @param teacherId
+     * @return List
+     */
     @GetMapping("/teacher/{teacherId}")
     public List<ClassroomDTO> getClassroomsByTeacherId(@PathVariable("teacherId") Integer teacherId) {
 
         return classroomService.getClassroomsByTeacherId(teacherId);
     }
+
+    /**
+     *  Método para obtener todas las aulas existentes en la base de datos a través de una respuesta HTTP
+     * @return List
+     */
     @GetMapping("/details")
     public List<ClassroomDTO> getAllClassroomDetails() {
         List<ClassroomDTO> result = classroomService.getAllClassroomDetails();
-        System.out.println(result);
+
         return result;
     }
+
+    /**
+     *  Método para obtener todas las aulas existentes en la base de datos a través de una respuesta HTTP que coincidan con los campos de búsqueda coincidan
+     * @param category
+     * @param localidad
+     * @param postalCode
+     * @return List
+     */
     @GetMapping("/seeker")
     public List<ClassroomDTO> searchClassrooms(
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) String localidad,
-            @RequestParam(required = false) String postalCode) {
+            @RequestParam("category") String category,
+            @RequestParam("localidad") String localidad,
+            @RequestParam("postalCode") String postalCode) {
+
         return classroomService.getAllClassroomSeeker(category, localidad, postalCode);
     }
+
 
 }

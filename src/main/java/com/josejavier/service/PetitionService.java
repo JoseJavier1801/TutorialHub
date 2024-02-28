@@ -25,7 +25,11 @@ public class PetitionService {
     @Autowired
     private ClassroomRepository classroomRepository;
 
-
+    /**
+     *  Función para crear o actualizar una petición en la base de datos
+     * @param petition
+     * @return Petition
+     */
     public Petition createOrUpdatePetition(Petition petition) {
         Petition newPetition = null;
         try {
@@ -51,6 +55,10 @@ public class PetitionService {
         return newPetition;
     }
 
+    /**
+     *  Función para borrar una petición de la base de datos
+     * @param id
+     */
     public void deletePetition(Integer id) {
         try {
             petitionRepository.deleteById(id);
@@ -59,6 +67,10 @@ public class PetitionService {
         }
     }
 
+    /**
+     *  Función para obtener todas las peticiónes de la base de datos
+     * @return List<Petition>
+     */
     public List<Petition> getAllPetitions() {
         try {
             List<Petition> petitions = petitionRepository.findAll();
@@ -67,6 +79,12 @@ public class PetitionService {
             throw new RuntimeException("Error retrieving petitions", e);
         }
     }
+
+    /**
+     *  Función para obtener una petición por su ID de la base de datos
+     * @param id
+     * @return Petition
+     */
 
     public Petition getPetitionById(Integer id) {
         try {
@@ -77,9 +95,20 @@ public class PetitionService {
         }
     }
 
+    /**
+     *  Función para obtener un cliente por su ID de la base de datos
+     * @param clientId
+     * @return Client
+     */
     public Client getClientById(Integer clientId) {
         return clientRepository.findById(clientId).orElse(null);
     }
+
+    /**
+     *  Función para obtener un aula por su ID de la base de datos
+     * @param classroomId
+     * @return Classroom
+     */
 
     public Classroom getClassroomById(Integer classroomId) {
         return classroomRepository.findById(classroomId).orElse(null);
@@ -127,10 +156,21 @@ public class PetitionService {
         return petitions;
     }
 
+    /**
+     *  Función para poder modifcar la peticion por su ID
+     * @param petitionId
+     * @param newState
+     * @param newMessage
+     */
     public void updatePetitionStateAndMessage(Integer petitionId, String newState, String newMessage) {
         petitionRepository.updateStateAndMessageById(petitionId, newState, newMessage);
     }
 
+    /**
+     *  Función par optener las peticiones de un cliente por su ID y el estado
+     * @param clientId
+     * @return List<Object[]>
+     */
     public List<Petition> getPetitionsByClientIdAndState(int clientId) {
         List<Object[]> results = petitionRepository.getPetitionsByClientIdAndState(clientId);
         List<Petition> petitions = new ArrayList<>();

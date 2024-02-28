@@ -18,6 +18,11 @@ public class PetitionController {
     @Autowired
     private  PetitionService petitionService;
 
+    /**
+     *  Función para crear o actualizar una petición en la base de datos
+     * @param petitionDTO
+     * @return Petition
+     */
     @PostMapping
     public ResponseEntity<PetitionDTO> createPetition(@RequestBody PetitionDTO petitionDTO) {
         try {
@@ -34,6 +39,12 @@ public class PetitionController {
         }
     }
 
+    /**
+     *  Función para actualizar una petición existente en la base de datos
+     * @param id
+     * @param petitionDTO
+     * @return Petition
+     */
     @PutMapping("/{id}")
     public ResponseEntity<PetitionDTO> updatePetition(@PathVariable("id") int id, @RequestBody PetitionDTO petitionDTO) {
         try {
@@ -69,11 +80,22 @@ public class PetitionController {
 
     }
 
+    /**
+     *  Función para eliminar una petición existente en la base de datos a través de una respuesta HTTP
+     * @param id
+     * @return ResponseEntity
+     */
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePetition(@PathVariable("id") int id) {
         petitionService.deletePetition(id);
         return ResponseEntity.ok("Petition deleted successfully");
     }
+
+    /**
+     *  Función para obtener todas las peticiones existentes en la base de datos a través de una respuesta HTTP
+     * @return List<Petition>
+     */
 
     @GetMapping
     public ResponseEntity<List<PetitionDTO>> getAllPetitions() {
@@ -86,19 +108,38 @@ public class PetitionController {
         return ResponseEntity.ok(petitionDTOs);
     }
 
+    /**
+     *  Función para obtener una petición existente en la base de datos a través de una respuesta HTTP
+     * @param clientId
+     * @return List<Petition>
+     */
+
     @GetMapping("/{clientId}")
     public List<Petition> getPetitionsByClientId(@PathVariable("clientId") int clientId) {
         return petitionService.getPetitionsByClientIdAndState(clientId);
     }
+
+    /**
+     *  Función para obtener una petición existente en la base de datos a través de una respuesta HTTP
+     * @param teacherId
+     * @return
+     */
     @GetMapping("/teacher/{teacherId}")
     public ResponseEntity<List<Petition>> getPetitionsByTeacher(@PathVariable("teacherId") int teacherId) {
-        System.out.println("id del docente: " + teacherId);
+
         List<Petition> petitions = petitionService.getMyPetitionTeacher(teacherId);
         if (petitions.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(petitions);
     }
+
+    /**
+     *  Función para actualizar el estado y el mensaje de una petición existente en la base de datos a través de una respuesta HTTP
+     * @param petitionId
+     * @param newState
+     * @param newMessage
+     */
     @PutMapping("/petitions/{id}")
     public void updatePetitionStateAndMessage(@PathVariable("id") Integer petitionId,
                                               @RequestParam("state") String newState,

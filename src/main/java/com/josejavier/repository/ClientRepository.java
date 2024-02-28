@@ -8,15 +8,25 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Integer> {
+    /**
+     *  funcion par optener un cliente por su username o mail
+     * @param username
+     * @param mail
+     * @return Client
+     */
+    @Query("SELECT c FROM Client c WHERE c.username = :username OR c.mail = :mail")
+    Client findByUsernameOrMail(@Param("username") String username, @Param("mail") String mail);
 
-    @Query("SELECT c.id AS user_id, c.photo AS user_photo, c.name AS user_name, c.username AS user_username, " +
-            "c.mail AS user_mail, c.password AS user_password, c.date AS user_date, " +
-            "c.phone AS user_phone FROM Client c WHERE c.username = :username")
-    Client findByUsername(String username);
 
     @Query("SELECT c FROM Client c WHERE c.id = :id")
     Client findbyid(int id);
 
+    /**
+     *  funcion par optener un cliente por su username y password
+     * @param username
+     * @param password
+     * @return Client
+     */
     @Query("SELECT c FROM Client c WHERE c.username = :username and c.password = :password")
     Client findbyUsernameAndPassword(@Param("username") String username, @Param("password") String password);
 
