@@ -81,7 +81,7 @@ public class ClientService {
     // Método para hashear la contraseña
     private String hashPassword(String password) {
         String hash=org.apache.commons.codec.digest.DigestUtils.sha256Hex(password);
-        System.out.println(hash);
+
         return  hash;
     }
     /**
@@ -99,18 +99,25 @@ public class ClientService {
             throw new RuntimeException("User not found with id: " + id);
         }
     }
+
+    /**
+     *  funcion para buscar un cliente por su nombre de usuario y contraseña para comprobar si existe
+     * @param username
+     * @param password
+     * @return
+     */
     public Client findByUsernameAndPassword(String username, String password) {
-    System.out.println(username);
-    System.out.println(password);
+
         return repo.findbyUsernameAndPassword(username, password);
     }
     public Client findById(int id) {
         Optional<Client> result = repo.findById(id);
         return result.orElseThrow(() -> new RuntimeException("User not found with id: " + id));
     }
-    public Client getClientByUsername(String username) {
-        return repo.findByUsername(username);
+    public Client getClientByUsernameOrEmail(String username, String email) {
+        return repo.findByUsernameOrMail(username, email);
     }
+
 
 
 }

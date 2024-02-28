@@ -9,35 +9,34 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface PetitionRepository extends JpaRepository<Petition, Integer> {
-
-    @Query("SELECT p FROM Petition p WHERE p.state = 'true'")
-    List<Petition> getPetitionsWithTrueStatus();
-
-    @Query("SELECT p FROM Petition p WHERE p.state = 'false'")
-    List<Petition> getPetitionsWithFalseStatus();
-
-    // Consulta SQL personalizada para contar las peticiones con estado nulo para un maestro
-    @Query("SELECT COUNT(p.id) AS num_petitions_null FROM Petition p INNER JOIN Classroom c ON p.classroom.id = c.id WHERE p.state IS NULL AND c.teacher.id = ?1")
-    int countNullStatePetitionsForTeacher(int teacherId);
-
-    // Consulta SQL personalizada para obtener detalles del aula y del maestro para un usuario
-
-
-    // Consulta SQL personalizada para contar las peticiones con estado nulo para un usuario
-    @Query("SELECT COUNT(p.id) FROM Petition p INNER JOIN Classroom c ON p.classroom.id = c.id WHERE p.state IS NULL AND p.client.id = ?1")
-    int countNullStatePetitionsForUser(int userId);
-
+    /**
+     *  funcion par optener las peticiones de un profesor por su ID
+     * @param teacherId
+     * @return
+     */
     @Query(value = "SELECT p.id, p.message, p.state, p.Date, c.name AS client_name, c.photo AS client_photo, c.mail AS client_email " +
             "FROM petition p " +
             "JOIN classroom cl ON p.id_classroom = cl.id " +
             "JOIN client c ON p.id_user = c.id " +
             "WHERE cl.id_teacher = ?1"+" AND p.state IN ('Denegada', 'Pendiente')", nativeQuery = true)
     List<Object[]> getMyPetitionTeacher(int teacherId);
+
+    /**
+     *  funcion para poder modifcar la peticion por su ID
+     * @param petitionId
+     * @param newState
+     * @param newMessage
+     */
     @Modifying
     @Transactional
     @Query("UPDATE Petition p SET p.state = :newState, p.message = :newMessage WHERE p.id = :petitionId")
     void updateStateAndMessageById(Integer petitionId, String newState, String newMessage);
 
+    /**
+     *  funcion par optener las peticiones de un cliente por su ID y el estado
+     * @param clientId
+     * @return List<Object[]>
+     */
     @Query(value = "SELECT p.id, p.message, p.state, p.Date, c.name AS client_name, c.photo AS client_photo, c.mail AS client_email " +
             "FROM petition p " +
             "JOIN classroom cl ON p.id_classroom = cl.id " +

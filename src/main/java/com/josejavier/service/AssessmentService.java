@@ -26,6 +26,12 @@ public class AssessmentService {
     @Autowired
     private TeacherRepository teacherRepository;
 
+    /**
+     *  Función para crear o actualizar una valoración en la base de datos
+     * @param assessment
+     * @return Assessment
+     */
+
     public Assessment createOrUpdateAssement(Assessment assessment) {
         Assessment newAssessment = null;
         try{
@@ -51,6 +57,10 @@ public class AssessmentService {
         return newAssessment;
     }
 
+    /**
+     *  Función para obtener todas las valoraciones de la base de datos
+     * @return List<Assessment>
+     */
 
     public List<Assessment> getAllAssessments() {
         try{
@@ -61,6 +71,10 @@ public class AssessmentService {
         }
     }
 
+    /**
+     *  Función para borrar una valoración por su ID en la base de datos
+     * @param id
+     */
 
     public void deleteAssessment(int id) {
         try{
@@ -69,6 +83,12 @@ public class AssessmentService {
             throw new RuntimeException("Error deleting assessment", e);
         }
     }
+
+    /**
+     *  Función para obtener una valoración por su ID en la base de datos
+     * @param id
+     * @return Assessment
+     */
 
     public Assessment getAssessmentById(int id) {
         try{
@@ -79,15 +99,15 @@ public class AssessmentService {
         }
     }
 
+    /**
+     *  Función para obtener las valoraciones de un cliente por su ID en la base de datos
+     * @param teacherId
+     * @return List<Assessment>
+     */
+
     public List<Assessment> getAssessmentsByTeacherId(int teacherId) {
 
         return assessmentRepository.findByTeacherId(teacherId);
     }
 
-    public Client getClientById(Integer clientId) {
-        return clientRepository.findById(clientId).orElse(null);
-    }
-    public Teacher getTeacherById(Integer teacherId) {
-        return teacherRepository.findById(teacherId).orElse(null);
-    }
 }
