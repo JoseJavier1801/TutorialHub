@@ -4,6 +4,10 @@ import com.josejavier.model.Classroom;
 import com.josejavier.DTO.ClassroomDTO;
 import com.josejavier.model.Teacher;
 import com.josejavier.service.ClassroomService;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.PrecisionModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,7 +61,7 @@ public class ClassroomController {
     public ResponseEntity<ClassroomDTO> updateClassroom(@PathVariable("id") int id, @RequestBody ClassroomDTO classroomDTO) {
         try {
             // Verificar si el aula con la ID dada existe
-            Classroom existingClassroom = classroomService.getClassroomById(Integer.valueOf(id));
+            Classroom existingClassroom = classroomService.getClassroomById(id);
 
             if (existingClassroom == null) {
                 // Manejar la situación en la que el aula no existe
@@ -73,21 +77,16 @@ public class ClassroomController {
             existingClassroom.setProvince(classroomDTO.getProvince());
             existingClassroom.setLocalidad(classroomDTO.getLocalidad());
 
+            // Convertir la ubicación del DTO a un objeto Point
+            Point location = createPoint(classroomDTO.getLat(), classroomDTO.getLng());
+            existingClassroom.setLocation(location);
+
             // Guardar la actualización en el servicio
             Classroom updatedClassroom = classroomService.createOrUpdateClassroom(existingClassroom);
 
             // Crear y devolver el DTO actualizado
-            ClassroomDTO updatedClassroomDTO = new ClassroomDTO();
-            updatedClassroomDTO.setId(updatedClassroom.getId());
-            updatedClassroomDTO.setDescription(updatedClassroom.getDescription());
-            updatedClassroomDTO.setType(updatedClassroom.getType());
-            updatedClassroomDTO.setCategory(updatedClassroom.getCategory());
-            updatedClassroomDTO.setDirection(updatedClassroom.getDirection());
-            updatedClassroomDTO.setPostalCode(updatedClassroom.getPostalCode());
-            updatedClassroomDTO.setProvince(updatedClassroom.getProvince());
-            updatedClassroomDTO.setLocalidad(updatedClassroom.getLocalidad());
-
-
+            ClassroomDTO updatedClassroomDTO = updatedClassroom.toDTO(); // Utiliza el método toDTO para crear el DTO
+            updatedClassroomDTO.setLocation(formatLocation(location)); // Asigna la ubicación formateada al DTO
             return ResponseEntity.ok(updatedClassroomDTO);
         } catch (RuntimeException e) {
             // Manejar la excepción apropiadamente, por ejemplo, registrarla
@@ -97,6 +96,22 @@ public class ClassroomController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    // Método para crear un objeto Point a partir de latitud y longitud
+    private Point createPoint(Double lat, Double lng) {
+        GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), 4326);
+        Coordinate coordinate = new Coordinate(lng, lat);
+        return geometryFactory.createPoint(coordinate);
+    }
+
+    // Método para formatear la ubicación como una cadena "latitud,longitud"
+    private String formatLocation(Point location) {
+        if (location == null) {
+            return null;
+        }
+        return location.getY() + "," + location.getX();
+    }
+
 
     /**
      *  Método para borrar un aula existente en la base de datos a través de una respuesta HTTP
@@ -156,20 +171,36 @@ public class ClassroomController {
     }
 
     /**
-     *  Método para obtener todas las aulas existentes en la base de datos a través de una respuesta HTTP que coincidan con los campos de búsqueda coincidan
+     *  Método para obtener todas las aulas existentes en la base de datos a través de una respuesta HTTP que coincidan con los campos de búsqueda
      * @param category
-     * @param localidad
-     * @param postalCode
+
      * @return List
      */
     @GetMapping("/seeker")
     public List<ClassroomDTO> searchClassrooms(
-            @RequestParam("category") String category,
-            @RequestParam("localidad") String localidad,
-            @RequestParam("postalCode") String postalCode) {
+            @RequestParam("category") String category)
+           {
 
-        return classroomService.getAllClassroomSeeker(category, localidad, postalCode);
+        return classroomService.getAllClassroomSeeker(category);
     }
+    @GetMapping("/classes-by-point")
+    public ResponseEntity<List<ClassroomDTO>> getClassesByPoint(
+            @RequestParam("lat") String lat,
+            @RequestParam("lng") String lng,
+            @RequestParam("radiusInMeters") double radiusInMeters) {
+        try {
+            double latitude = Double.parseDouble(lat);
+            double longitude = Double.parseDouble(lng);
+            // Llamar al servicio para obtener las aulas cercanas
+            List<ClassroomDTO> classes = classroomService.getAllClassByPoint(latitude, longitude, radiusInMeters);
+
+            return ResponseEntity.ok(classes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
 
 }
