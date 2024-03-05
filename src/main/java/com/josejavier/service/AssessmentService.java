@@ -14,13 +14,21 @@ import java.util.Optional;
 
 @Service
 public class AssessmentService {
-    @Autowired
+
+
     private AssessmentRepository assessmentRepository;
+
+
+    public AssessmentService(AssessmentRepository assessmentRepository) {
+        this.assessmentRepository = assessmentRepository;
+    }
 
     @Autowired
     private TeacherService teacherService;
+
     @Autowired
     private ClientService clientService;
+
     @Autowired
     private ClientRepository clientRepository;
     @Autowired
