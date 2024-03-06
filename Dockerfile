@@ -1,8 +1,9 @@
 FROM maven:3.8.5-openjdk-17 as build
 COPY . .
 RUN mvn clean package -DskipTests
+RUN mvn clean package
 
 FROM openjdk:17-jdk-slim
-COPY --from=build /target/TutorialHub-1.0-SNAPSHOT.jar tutorialhub.jar
+COPY --from=build /target/tutorialhub-0.0.1-SNAPSHOT.jar /app/tutorialhub.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","tutorialhub.jar"]
+CMD ["java","-jar","/app/tutorialhub.jar"]
