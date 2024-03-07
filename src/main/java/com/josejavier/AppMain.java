@@ -24,9 +24,9 @@ public class AppMain {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin(System.getenv("https://tutorialhub-neon.vercel.app")); // Origen permitido
-        configuration.addAllowedOrigin(System.getenv("https://tutorialhub-r6fgo2vmw-jjgs-2003s-projects.vercel.app")); // Origen permitido
-        configuration.addAllowedOrigin(System.getenv("https://tutorialhub-git-master-jjgs-2003s-projects.vercel.app")); // Origen permitido
+        configuration.addAllowedOrigin(System.getenv("tutorialhub-neon.vercel.app")); // Origen permitido
+        configuration.addAllowedOrigin(System.getenv("tutorialhub-r6fgo2vmw-jjgs-2003s-projects.vercel.app")); // Origen permitido
+        configuration.addAllowedOrigin(System.getenv("tutorialhub-git-master-jjgs-2003s-projects.vercel.app")); // Origen permitido
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE")); // Métodos permitidos
         configuration.setAllowedHeaders(Arrays.asList("*")); // Todos los encabezados permitidos
         configuration.setAllowCredentials(false); // Permitir credenciales
