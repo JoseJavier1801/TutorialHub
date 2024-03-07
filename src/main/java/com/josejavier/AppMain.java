@@ -22,9 +22,9 @@ public class AppMain {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**").allowedOrigins("http://localhost:4200").allowedMethods("*").allowedHeaders("*");
-                registry.addMapping("/api/**").allowedOrigins("https://tutorialhub-git-master-jjgs-2003s-projects.vercel.app").allowedMethods("*").allowedHeaders("*");
-                registry.addMapping("/auth/**").allowedOrigins("https://tutorialhub-neon.vercel.app").allowedMethods("*").allowedHeaders("*");
-                registry.addMapping("/user/**").allowedOrigins("https://tutorialhub-r6fgo2vmw-jjgs-2003s-projects.vercel.app").allowedMethods("*").allowedHeaders("*");
+                registry.addMapping("/**").allowedOrigins("https://tutorialhub-git-master-jjgs-2003s-projects.vercel.app").allowedMethods("*").allowedHeaders("*");
+                registry.addMapping("/**").allowedOrigins("https://tutorialhub-neon.vercel.app").allowedMethods("*").allowedHeaders("*");
+                registry.addMapping("/**").allowedOrigins("https://tutorialhub-r6fgo2vmw-jjgs-2003s-projects.vercel.app").allowedMethods("*").allowedHeaders("*");
             }
         };
     }
