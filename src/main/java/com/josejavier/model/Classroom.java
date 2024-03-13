@@ -42,10 +42,16 @@ public class Classroom implements Serializable {
     @Column(name = "province")
     private String province;
 
+    @Column(name = "video")
+    private byte video;
+
     @Column(name = "localidad")
     private String localidad;
     @Column(name="duration")
     private String duration;
+
+    @Column(name="price")
+    private double price;
 
     @ManyToOne
     @JoinColumn(name = "id_teacher", nullable = false)
@@ -68,17 +74,19 @@ public class Classroom implements Serializable {
         this.province=dto.getProvince();
         this.duration=dto.getDuration();
         this.teacher=dto.getTeacher();
+        this.video=dto.getVideo();
+        this.price=dto.getPrice();
 
     }
 
 
 
     public Classroom() {
-        this(null, "", "", "", null, "", "", "", "", new Teacher(),"");
+        this(null, "", "", "", null, "", "", "", "", new Teacher(),"", (byte) 0,0);
     }
 
     public Classroom(Integer id, String description, String type, String category, Point location,
-                     String direction, String postalCode, String province, String localidad, Teacher teacher,String duration) {
+                     String direction, String postalCode, String province, String localidad, Teacher teacher,String duration,byte video,double price) {
         this.id = id;
         this.description = description;
         this.type = type;
@@ -90,6 +98,8 @@ public class Classroom implements Serializable {
         this.localidad = localidad;
         this.teacher = teacher;
         this.duration=duration;
+        this.video=video;
+        this.price=price;
     }
 
     // Getters and setters
@@ -175,6 +185,23 @@ public class Classroom implements Serializable {
         this.teacher = teacher;
     }
 
+    public byte getVideo() {
+        return video;
+    }
+
+    public void setVideo(byte video) {
+        this.video = video;
+    }
+
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public ClassroomDTO toDTO(){
         ClassroomDTO dto = new ClassroomDTO();
         dto.setId(this.id);
@@ -189,6 +216,8 @@ public class Classroom implements Serializable {
         dto.setLocalidad(this.localidad);
         dto.setTeacherID(this.teacher.getId());
         dto.setDuration(this.duration);
+        dto.setVideo(this.video);
+        dto.setPrice(this.price);
         return dto;
     }
 

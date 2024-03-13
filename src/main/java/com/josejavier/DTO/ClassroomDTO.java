@@ -23,11 +23,15 @@ public class ClassroomDTO {
     private String province;
     private String localidad;
     private String duration;
+
+    private double Price;
     private int teacherID;
+
+    private Byte video;
 
     private Teacher teacher;
 
-    public ClassroomDTO(Integer id, String description, String type, String category, Double lat, Double lng, String direction, String postalCode, String province, String localidad,String duration ,int teacherID) {
+    public ClassroomDTO(Integer id, String description, String type, String category, Double lat, Double lng, String direction, String postalCode, String province, String localidad,String duration ,int teacherID,Byte video,Teacher teacher,double Price) {
         this.id = id;
         this.description = description;
         this.type = type;
@@ -40,6 +44,8 @@ public class ClassroomDTO {
         this.localidad = localidad;
         this.teacherID = teacherID;
         this.duration=duration;
+        this.video=video;
+        this.Price=Price;
     }
 
     public ClassroomDTO() {
@@ -161,7 +167,24 @@ public class ClassroomDTO {
     public Teacher getTeacher() {
         return teacher;
     }
-    
+
+    public Byte getVideo() {
+        return video;
+    }
+
+    public void setVideo(Byte video) {
+        this.video = video;
+    }
+
+
+    public double getPrice() {
+        return Price;
+    }
+
+    public void setPrice(double price) {
+        Price = price;
+    }
+
 
     @Override
     public String toString() {
@@ -178,6 +201,7 @@ public class ClassroomDTO {
                 ", localidad='" + localidad + '\'' +
                 ", duration='" + duration + '\'' +
                 ", teacherID=" + teacherID +
+                ", video=" + video +
                 ", teacher=" + teacher +
                 '}';
     }
