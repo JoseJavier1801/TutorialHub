@@ -76,6 +76,8 @@ public class ClassroomController {
             existingClassroom.setPostalCode(classroomDTO.getPostalCode());
             existingClassroom.setProvince(classroomDTO.getProvince());
             existingClassroom.setLocalidad(classroomDTO.getLocalidad());
+            existingClassroom.setPrice(ClassroomDTO.getPrice());
+            existingClassroom.setVideo(ClassroomDTO.getVideo());
 
             // Convertir la ubicación del DTO a un objeto Point
             Point location = createPoint(classroomDTO.getLat(), classroomDTO.getLng());

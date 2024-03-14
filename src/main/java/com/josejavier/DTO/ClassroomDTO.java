@@ -1,8 +1,6 @@
 package com.josejavier.DTO;
 
 import com.josejavier.model.Teacher;
-import jakarta.persistence.Column;
-import org.locationtech.jts.geom.Point;
 
 public class ClassroomDTO {
     private Integer id;
@@ -168,16 +166,16 @@ public class ClassroomDTO {
         return teacher;
     }
 
-    public Byte getVideo() {
+    public static Byte getVideo() {
         return video;
     }
 
-    public void setVideo(Byte video) {
+    public void setVideo(byte[] video) {
         this.video = video;
     }
 
 
-    public double getPrice() {
+    public static double getPrice() {
         return Price;
     }
 

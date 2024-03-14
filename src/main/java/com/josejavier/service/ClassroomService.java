@@ -109,6 +109,8 @@ public class ClassroomService {
             classroom.setProvince((String) result[7]);
             classroom.setLocalidad((String) result[8]);
             classroom.setDuration((String) result[9]);
+            classroom.setPrice((Double) result[10]);
+            classroom.setVideo((byte[]) result[11]);
 
             // Crear un objeto Teacher y asignar sus propiedades
             Teacher teacher = new Teacher();
@@ -182,6 +184,8 @@ public class ClassroomService {
             classroom.setProvince((String) result[7]);
             classroom.setLocalidad((String) result[8]);
             classroom.setDuration((String) result[9]);
+            classroom.setPrice((Double) result[10]);
+            classroom.setVideo((byte[]) result[11]);
 
             // Crear un objeto Teacher y asignar sus propiedades
             Teacher teacher = new Teacher();
@@ -233,6 +237,8 @@ public class ClassroomService {
             classroom.setProvince((String) result[7]);
             classroom.setLocalidad((String) result[8]);
             classroom.setDuration((String) result[9]);
+            classroom.setPrice((Double) result[10]);
+            classroom.setVideo((byte[]) result[11]);
 
             // Crear un objeto Teacher y asignar sus propiedades
             Teacher teacher = new Teacher();
@@ -286,6 +292,8 @@ public class ClassroomService {
             classroom.setProvince((String) result[7]);
             classroom.setLocalidad((String) result[8]);
             classroom.setDuration((String) result[9]);
+            classroom.setPrice((Double) result[10]);
+            classroom.setVideo((byte[]) result[11]);
 
             // Crear un objeto Teacher y asignar sus propiedades
             Teacher teacher = new Teacher();
@@ -335,6 +343,8 @@ public class ClassroomService {
             classroom.setProvince((String) result[7]);
             classroom.setLocalidad((String) result[8]);
             classroom.setDuration((String) result[9]);
+            classroom.setPrice((Double) result[10]);
+            classroom.setVideo((byte[]) result[11]);
 
             // Crear un objeto Teacher y asignar sus propiedades
             Teacher teacher = new Teacher();
