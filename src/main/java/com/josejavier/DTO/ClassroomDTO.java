@@ -25,7 +25,7 @@ public class ClassroomDTO {
     private static double Price;
     private int teacherID;
 
-    private String video;
+    private static String video;
 
     private Teacher teacher;
 
