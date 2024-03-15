@@ -3,6 +3,7 @@ package com.josejavier.service;
 import com.josejavier.model.Petition;
 import com.josejavier.model.Client;
 import com.josejavier.model.Classroom;
+import com.josejavier.model.Teacher;
 import com.josejavier.repository.PetitionRepository;
 import com.josejavier.repository.ClientRepository;
 import com.josejavier.repository.ClassroomRepository;
@@ -113,46 +114,44 @@ public class PetitionService {
     public Classroom getClassroomById(Integer classroomId) {
         return classroomRepository.findById(classroomId).orElse(null);
     }
-    public List<Petition> getMyPetitionTeacher(int teacherId) {
-        List<Object[]> results = petitionRepository.getMyPetitionTeacher(teacherId);
+    public List<Petition> getMyPetitionTeacher(int teacherId, String state) {
+        List<Object[]> results;
         List<Petition> petitions = new ArrayList<>();
+
+        if (state.equals("Pendiente")) {
+            results = petitionRepository.getMyPetitionTeacher(teacherId);
+        } else if (state.equals("Aceptada")) {
+            results = petitionRepository.getMyPetitionTeacherAcep(teacherId);
+        } else if (state.equals("Denegada")) {
+            results = petitionRepository.getMyPetitionTeacherDene(teacherId);
+        } else {
+            // Manejar el caso en el que el estado no coincida con ninguno de los valores esperados
+            // Por ejemplo, lanzar una excepción o establecer un valor predeterminado
+            return petitions; // Retorna una lista vacía
+        }
+
         for (Object[] result : results) {
             Petition petition = new Petition();
-
-            // Asignación de propiedades según el orden de la consulta SQL
             petition.setId((Integer) result[0]);
             petition.setMessage((String) result[1]);
             petition.setState((String) result[2]);
 
-            // Conversión de java.sql.Date a java.time.LocalDate
             Date dateSql = (Date) result[3];
             if (dateSql != null) {
                 petition.setDate(dateSql.toLocalDate());
             } else {
-                // Manejar el caso en el que dateSql sea nulo
-                // Por ejemplo, establecer una fecha predeterminada o lanzar una excepción
-                // Aquí se establece la fecha actual como predeterminada
                 petition.setDate(LocalDate.now());
             }
 
-            // Crear un objeto Client y asignar su ID
             Client client = new Client();
-
-            // Asignar el resto de propiedades del cliente
-            client.setName((String) result[4]); // Suponiendo que el índice 5 es el campo name del cliente
-
-            // Convertir la foto a una cadena Base64
+            client.setName((String) result[4]);
             client.setPhoto((byte[]) result[5]);
+            client.setMail((String) result[6]);
 
-            client.setMail((String) result[6]); // Suponiendo que el índice 7 es el campo mail del cliente
-
-            // Establecer el objeto Client en la Petición
             petition.setClient(client);
-
-            // Agregar la Petición a la lista
             petitions.add(petition);
         }
-
+        System.out.println(petitions);
         return petitions;
     }
 
@@ -171,46 +170,48 @@ public class PetitionService {
      * @param clientId
      * @return List<Object[]>
      */
-    public List<Petition> getPetitionsByClientIdAndState(int clientId) {
-        List<Object[]> results = petitionRepository.getPetitionsByClientIdAndState(clientId);
+    public List<Petition> getPetitionsByClientIdAndState(int clientId, String state) {
+        List<Object[]> results;
         List<Petition> petitions = new ArrayList<>();
+
+        if (state.equals("Aceptada")) {
+            results = petitionRepository.getPetitionsByClientIdAcep(clientId);
+            System.out.println("he llegado");
+        } else if (state.equals("Denegada")) {
+            results = petitionRepository.getPetitionsByClientIdDene(clientId);
+            System.out.println("he llegado");
+        } else if (state.equals("Pendiente")) {
+            results = petitionRepository.getPetitionsByClientIdPen(clientId);
+            System.out.println("he llegado");
+        } else {
+            // Manejar el caso en el que el estado no coincida con ninguno de los valores esperados
+            // Por ejemplo, lanzar una excepción o establecer un valor predeterminado
+            return petitions; // Retorna una lista vacía
+        }
+
         for (Object[] result : results) {
             Petition petition = new Petition();
-
-            // Asignación de propiedades según el orden de la consulta SQL
             petition.setId((Integer) result[0]);
             petition.setMessage((String) result[1]);
             petition.setState((String) result[2]);
 
-            // Conversión de java.sql.Date a java.time.LocalDate
             Date dateSql = (Date) result[3];
             if (dateSql != null) {
                 petition.setDate(dateSql.toLocalDate());
             } else {
-                // Manejar el caso en el que dateSql sea nulo
-                // Por ejemplo, establecer una fecha predeterminada o lanzar una excepción
-                // Aquí se establece la fecha actual como predeterminada
                 petition.setDate(LocalDate.now());
             }
 
-            // Crear un objeto Client y asignar su ID
             Client client = new Client();
-
-            // Asignar el resto de propiedades del cliente
-            client.setName((String) result[4]); // Suponiendo que el índice 5 es el campo name del cliente
-
-            // Convertir la foto a una cadena Base64
+            client.setName((String) result[4]);
             client.setPhoto((byte[]) result[5]);
+            client.setMail((String) result[6]);
 
-            client.setMail((String) result[6]); // Suponiendo que el índice 7 es el campo mail del cliente
-
-            // Establecer el objeto Client en la Petición
             petition.setClient(client);
-
-            // Agregar la Petición a la lista
             petitions.add(petition);
         }
 
+        System.out.println(petitions);
         return petitions;
     }
 

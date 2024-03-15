@@ -78,15 +78,18 @@ public class ClassroomController {
             existingClassroom.setLocalidad(classroomDTO.getLocalidad());
 
             // Convertir la ubicación del DTO a un objeto Point
-            Point location = createPoint(classroomDTO.getLat(), classroomDTO.getLng());
+            GeometryFactory geometryFactory = new GeometryFactory();
+            Coordinate coordinate = new Coordinate(classroomDTO.getLng(), classroomDTO.getLat());
+            Point location = geometryFactory.createPoint(coordinate);
+
+            // Guardar la ubicación en el objeto Classroom
             existingClassroom.setLocation(location);
 
             // Guardar la actualización en el servicio
             Classroom updatedClassroom = classroomService.createOrUpdateClassroom(existingClassroom);
 
             // Crear y devolver el DTO actualizado
-            ClassroomDTO updatedClassroomDTO = updatedClassroom.toDTO(); // Utiliza el método toDTO para crear el DTO
-            updatedClassroomDTO.setLocation(formatLocation(location)); // Asigna la ubicación formateada al DTO
+            ClassroomDTO updatedClassroomDTO = updatedClassroom.toDTO();
             return ResponseEntity.ok(updatedClassroomDTO);
         } catch (RuntimeException e) {
             // Manejar la excepción apropiadamente, por ejemplo, registrarla
