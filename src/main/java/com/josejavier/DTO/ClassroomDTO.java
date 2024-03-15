@@ -22,14 +22,14 @@ public class ClassroomDTO {
     private String localidad;
     private String duration;
 
-    private double Price;
+    private static double Price;
     private int teacherID;
 
-    private Byte video;
+    private String video;
 
     private Teacher teacher;
 
-    public ClassroomDTO(Integer id, String description, String type, String category, Double lat, Double lng, String direction, String postalCode, String province, String localidad,String duration ,int teacherID,Byte video,Teacher teacher,double Price) {
+    public ClassroomDTO(Integer id, String description, String type, String category, Double lat, Double lng, String direction, String postalCode, String province, String localidad,String duration ,int teacherID,String video,Teacher teacher,double Price) {
         this.id = id;
         this.description = description;
         this.type = type;
@@ -166,14 +166,13 @@ public class ClassroomDTO {
         return teacher;
     }
 
-    public static Byte getVideo() {
+    public static String getVideo() {
         return video;
     }
 
-    public void setVideo(byte[] video) {
+    public void setVideo(String video) {
         this.video = video;
     }
-
 
     public static double getPrice() {
         return Price;
