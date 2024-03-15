@@ -80,6 +80,7 @@ public class ClassroomService {
         }
     }
 
+
     /**
      * Función para obtener una aula por su ID de la base de datos
      *
