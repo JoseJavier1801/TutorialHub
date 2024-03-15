@@ -164,7 +164,11 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
             "cl.mail AS teacher_mail, " +
             "cl.phone AS teacher_phone, " +
             "t.biography AS teacher_biography, " +
-            "t.title AS teacher_title " +
+            "t.title AS teacher_title, " +
+            "ST_Distance(" +
+            "    ST_SetSRID(c.location, 4326), " +
+            "    ST_SetSRID(ST_GeogFromText('POINT(' || :longitude || ' ' || :latitude || ')'), 4326) " +
+            ") AS distance " +
             "FROM " +
             "classroom c " +
             "JOIN " +
@@ -174,10 +178,40 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
             "WHERE " +
             "ST_Distance(" +
             "    ST_SetSRID(c.location, 4326), " +
-            "    ST_SetSRID(ST_geogfromtext('POINT(' || :longitude || ' ' || :latitude || ')'), 4326) " +
-            ") <= :radius_in_meters", nativeQuery = true)
+            "    ST_SetSRID(ST_GeogFromText('POINT(' || :longitude || ' ' || :latitude || ')'), 4326) " +
+            ") <= :radius_in_meters " +
+            "ORDER BY distance ASC", nativeQuery = true)
     List<Object[]> getAllClassByPoint(@Param("latitude") double latitude, @Param("longitude") double longitude,
                                       @Param("radius_in_meters") double radiusInMeters);
+
+
+
+    ///////////////////////////////////////nuevas funciones /////////////////////////////////////////////////
+    @Query(value = "SELECT " +
+            "c.id AS classroom_id, " +
+            "c.description AS classroom_description, " +
+            "c.type AS classroom_type, " +
+            "c.category AS classroom_category, " +
+            "c.location AS classroom_location, " +
+            "c.direction AS classroom_direction, " +
+            "c.postal_code AS classroom_postal_code, " +
+            "c.province AS classroom_province, " +
+            "c.localidad AS classroom_localidad, " +
+            "c.duration AS classroom_duration, " +
+            "c.id_teacher AS classroom_id_teacher, " +
+            "cl.name AS teacher_name, " +
+            "cl.photo AS teacher_photo, " +
+            "cl.mail AS teacher_mail, " +
+            "cl.phone AS teacher_phone, " +
+            "t.biography AS teacher_biography, " +
+            "t.title AS teacher_title " +
+            "FROM " +
+            "classroom c " +
+            "JOIN teacher t ON t.id = c.id_teacher " +
+            "JOIN client cl ON cl.id = t.id " +
+            "ORDER BY cl.name", nativeQuery = true)
+    List<Object[]> getallClassroomDetailsOPtionOne();
+
 
 }
 

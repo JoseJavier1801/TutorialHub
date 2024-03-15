@@ -117,7 +117,21 @@ public class ClientService {
     public Client getClientByUsernameOrEmail(String username, String email) {
         return repo.findByUsernameOrMail(username, email);
     }
+    public List<Object[]> findDistinctClientInfoByTeacherId(Long teacherId, int option, long classId) {
+        switch (option) {
+            case 1:
+                return repo.findDistinctClientInfoByTeacherId(teacherId);
+            case 2:
+                return repo.findDistinctClientInfoByTeacherIdOrder(teacherId);
+            case 3:
+                // Supongamos que el ID de la clase es 1
 
-
-
+                return repo.findDistinctClientInfoByTeacherIdAndClassId(teacherId, classId);
+            default:
+                throw new IllegalArgumentException("Invalid option: " + option);
+        }
+    }
 }
+
+
+

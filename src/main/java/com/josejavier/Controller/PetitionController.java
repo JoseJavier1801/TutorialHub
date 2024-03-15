@@ -115,19 +115,21 @@ public class PetitionController {
      */
 
     @GetMapping("/{clientId}")
-    public List<Petition> getPetitionsByClientId(@PathVariable("clientId") int clientId) {
-        return petitionService.getPetitionsByClientIdAndState(clientId);
+    public ResponseEntity <List<Petition>> getPetitionsByClientId(@PathVariable("clientId") int clientId, @RequestParam("state") String state) {
+        List<Petition> petitions = petitionService.getPetitionsByClientIdAndState(clientId, state);
+        if (petitions.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(petitions);
     }
-
     /**
      *  Función para obtener una petición existente en la base de datos a través de una respuesta HTTP
      * @param teacherId
      * @return
      */
     @GetMapping("/teacher/{teacherId}")
-    public ResponseEntity<List<Petition>> getPetitionsByTeacher(@PathVariable("teacherId") int teacherId) {
-
-        List<Petition> petitions = petitionService.getMyPetitionTeacher(teacherId);
+    public ResponseEntity<List<Petition>> getPetitionsByTeacherAndState(@PathVariable("teacherId") int teacherId, @RequestParam("state") String state) {
+        List<Petition> petitions = petitionService.getMyPetitionTeacher(teacherId, state);
         if (petitions.isEmpty()) {
             return ResponseEntity.noContent().build();
         }

@@ -109,5 +109,8 @@ public class AssessmentService {
 
         return assessmentRepository.findByTeacherId(teacherId);
     }
+    public double getTeacherLevel(int teacherId) {
+        return assessmentRepository.levelTeacher(teacherId);
+    }
 
 }

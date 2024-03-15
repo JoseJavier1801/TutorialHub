@@ -130,5 +130,14 @@ public class ClientController {
         }
     }
 
+   /** @GetMapping("/distinct-client-info/{teacherId}/{classId}")
+    public ResponseEntity<List<Object[]>> getDistinctClientInfoByTeacherId(
+            @PathVariable Long teacherId,
+            @PathVariable int classId
+    ) {
+        List<Object[]> clientInfo = service.findDistinctClientInfoByTeacherId(teacherId, classId);
+        return ResponseEntity.ok(clientInfo);
+    }*/
 
 }
+
