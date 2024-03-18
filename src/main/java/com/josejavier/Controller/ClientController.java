@@ -130,14 +130,21 @@ public class ClientController {
         }
     }
 
-   /** @GetMapping("/distinct-client-info/{teacherId}/{classId}")
+    @GetMapping("/distinct-client-info/{teacherId}/{classId}/{option}")
     public ResponseEntity<List<Object[]>> getDistinctClientInfoByTeacherId(
-            @PathVariable Long teacherId,
-            @PathVariable int classId
+            @PathVariable("teacherId") int teacherId,
+            @PathVariable("classId") Integer classId,
+            @PathVariable("option") int option
     ) {
-        List<Object[]> clientInfo = service.findDistinctClientInfoByTeacherId(teacherId, classId);
+        if (option < 1 || option > 3) {
+            throw new IllegalArgumentException("Invalid option: " + option);
+        }
+
+        List<Object[]> clientInfo = service.findDistinctClientInfoByTeacherId(Long.valueOf(teacherId), option, classId);
         return ResponseEntity.ok(clientInfo);
-    }*/
+    }
+
+
 
 }
 

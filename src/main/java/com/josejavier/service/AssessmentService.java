@@ -109,8 +109,18 @@ public class AssessmentService {
 
         return assessmentRepository.findByTeacherId(teacherId);
     }
-    public double getTeacherLevel(int teacherId) {
-        return assessmentRepository.levelTeacher(teacherId);
+    /**
+     * Función para obtener la media del estado de las calificaciones de un profesor por su ID en la base de datos.
+     *
+     * @param teacherId El ID del profesor.
+     * @return La media del estado de las calificaciones.
+     */
+    public Double getAverageAssessmentByTeacherId(int teacherId) {
+        try {
+            return assessmentRepository.findAverageAssessmentByTeacherId(teacherId).orElse(null);
+        } catch (Exception e) {
+            throw new RuntimeException("Error retrieving average assessment by teacher ID", e);
+        }
     }
 
 }
