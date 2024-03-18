@@ -4,32 +4,22 @@ import com.josejavier.model.Teacher;
 
 public class ClassroomDTO {
     private Integer id;
-
     private String description;
-
     private String type;
-
     private String category;
-
     private Double lat;
     private Double lng;
-
     private String direction;
-
     private String postalCode;
-
     private String province;
     private String localidad;
     private String duration;
-
-    private static double Price;
     private int teacherID;
-
-    private static String video;
-
+    private byte[] video;
     private Teacher teacher;
+    private double price;
 
-    public ClassroomDTO(Integer id, String description, String type, String category, Double lat, Double lng, String direction, String postalCode, String province, String localidad,String duration ,int teacherID,String video,Teacher teacher,double Price) {
+    public ClassroomDTO(Integer id, String description, String type, String category, Double lat, Double lng, String direction, String postalCode, String province, String localidad, String duration, int teacherID, byte[] video, Teacher teacher, double price) {
         this.id = id;
         this.description = description;
         this.type = type;
@@ -40,10 +30,11 @@ public class ClassroomDTO {
         this.postalCode = postalCode;
         this.province = province;
         this.localidad = localidad;
+        this.duration = duration;
         this.teacherID = teacherID;
-        this.duration=duration;
-        this.video=video;
-        this.Price=Price;
+        this.video = video;
+        this.teacher = teacher;
+        this.price = price;
     }
 
     public ClassroomDTO() {
@@ -128,6 +119,7 @@ public class ClassroomDTO {
     public void setLocalidad(String localidad) {
         this.localidad = localidad;
     }
+
     public int getTeacherID() {
         return teacherID;
     }
@@ -135,20 +127,13 @@ public class ClassroomDTO {
     public void setTeacherID(int teacherID) {
         this.teacherID = teacherID;
     }
-    public void setLocation(String location) {
-        // Puedes hacer cualquier procesamiento adicional aquí si es necesario
-        // Por ejemplo, si location es una cadena en formato específico que necesitas analizar
-        // Para este ejemplo, no necesitamos procesamiento adicional, simplemente establecemos lat y lng
 
-        // Supongamos que location es una cadena en formato "latitud,longitud"
-        String[] parts = location.split(",");
-        if (parts.length == 2) {
-            this.lat = (Double) Double.parseDouble(parts[0]);
-            this.lng = (Double) Double.parseDouble(parts[1]);
-        } else {
-            // Manejo de errores si la cadena no está en el formato esperado
-            // Puedes lanzar una excepción o realizar otra acción apropiada aquí
-        }
+    public static byte[] getVideo() {
+        return video;
+    }
+
+    public void setVideo(byte[] video) {
+        this.video = video;
     }
 
     public String getDuration() {
@@ -159,29 +144,21 @@ public class ClassroomDTO {
         this.duration = duration;
     }
 
-    public void setTeacher(Teacher teacher) {
-        this.teacher=teacher;
-    }
     public Teacher getTeacher() {
         return teacher;
     }
 
-    public static String getVideo() {
-        return video;
-    }
-
-    public void setVideo(String video) {
-        this.video = video;
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 
     public static double getPrice() {
-        return Price;
+        return price;
     }
 
     public void setPrice(double price) {
-        Price = price;
+        this.price = price;
     }
-
 
     @Override
     public String toString() {
@@ -200,6 +177,7 @@ public class ClassroomDTO {
                 ", teacherID=" + teacherID +
                 ", video=" + video +
                 ", teacher=" + teacher +
+                ", price=" + price +
                 '}';
     }
 }

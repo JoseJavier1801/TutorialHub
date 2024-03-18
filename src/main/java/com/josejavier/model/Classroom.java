@@ -42,8 +42,9 @@ public class Classroom implements Serializable {
     @Column(name = "province")
     private String province;
 
+    @Lob
     @Column(name = "video")
-    private String video;
+    private byte[] video;
 
     @Column(name = "localidad")
     private String localidad;
@@ -82,11 +83,11 @@ public class Classroom implements Serializable {
 
 
     public Classroom() {
-        this(null, "", "", "", null, "", "", "", "", new Teacher(),"",  " ",0);
+        this(null, "", "", "", null, "", "", "", "", new Teacher(),"",  null,0);
     }
 
     public Classroom(Integer id, String description, String type, String category, Point location,
-                     String direction, String postalCode, String province, String localidad, Teacher teacher,String duration,String video,double price) {
+                     String direction, String postalCode, String province, String localidad, Teacher teacher,String duration,byte[] video,double price) {
         this.id = id;
         this.description = description;
         this.type = type;
@@ -185,11 +186,11 @@ public class Classroom implements Serializable {
         this.teacher = teacher;
     }
 
-    public String getVideo() {
+    public byte[] getVideo() {
         return video;
     }
 
-    public void setVideo(String video) {
+    public void setVideo(byte[] video) {
         this.video = video;
     }
 
