@@ -124,13 +124,15 @@ public class ClientService {
             case 2:
                 return repo.findDistinctClientInfoByTeacherIdOrder(teacherId);
             case 3:
-                // Supongamos que el ID de la clase es 1
-
+                if (classId <= 0) {
+                    throw new IllegalArgumentException("Invalid classId: " + classId);
+                }
                 return repo.findDistinctClientInfoByTeacherIdAndClassId(teacherId, classId);
             default:
                 throw new IllegalArgumentException("Invalid option: " + option);
         }
     }
+
 }
 
 

@@ -128,6 +128,25 @@ public class AssessmentController {
         assessmentService.deleteAssessment(id);
         return ResponseEntity.noContent().build();
     }
+    /**
+     * Obtiene el promedio de las evaluaciones por ID del profesor a través de una respuesta HTTP
+     * @param teacherId ID del profesor
+     * @return ResponseEntity<Double>
+     */
+    @GetMapping("/average/{teacherId}")
+    public ResponseEntity<Double> getAverageAssessmentByTeacherId(@PathVariable("teacherId") int teacherId) {
+        System.out.println("teacherId: " + teacherId);
+        try {
+            Double averageAssessment = assessmentService.getAverageAssessmentByTeacherId(teacherId);
+            if (averageAssessment != null) {
+                return ResponseEntity.ok(averageAssessment);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (RuntimeException e) {
+            throw new RuntimeException("Error retrieving average assessment by teacher ID", e);
+        }
+    }
 
 
 
