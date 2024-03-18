@@ -15,9 +15,9 @@ public class ClassroomDTO {
     private String localidad;
     private String duration;
     private int teacherID;
-    private byte[] video;
+    private static byte[] video;
     private Teacher teacher;
-    private double price;
+    private static double price;
 
     public ClassroomDTO(Integer id, String description, String type, String category, Double lat, Double lng, String direction, String postalCode, String province, String localidad, String duration, int teacherID, byte[] video, Teacher teacher, double price) {
         this.id = id;
