@@ -42,8 +42,7 @@ public class Classroom implements Serializable {
     @Column(name = "province")
     private String province;
 
-    @Lob
-    @Column(name = "video")
+    @Column(name = "video", columnDefinition = "bytea")
     private byte[] video;
 
     @Column(name = "localidad")
