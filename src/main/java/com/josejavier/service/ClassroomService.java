@@ -110,8 +110,8 @@ public class ClassroomService {
             classroom.setProvince((String) result[7]);
             classroom.setLocalidad((String) result[8]);
             classroom.setDuration((String) result[9]);
-           /** classroom.setPrice((Double) result[10]);
-            classroom.setVideo((byte[]) result[11]);*/
+            classroom.setPrice((Double) result[10]);
+            classroom.setVideo((byte[]) result[11]);
 
             // Crear un objeto Teacher y asignar sus propiedades
             Teacher teacher = new Teacher();
@@ -185,24 +185,26 @@ public class ClassroomService {
             classroom.setProvince((String) result[7]);
             classroom.setLocalidad((String) result[8]);
             classroom.setDuration((String) result[9]);
-           /* classroom.setPrice((Double) result[10]);
-            classroom.setVideo((byte[]) result[11]);**/
+            // Asegúrate de usar Double para el precio en lugar de Integer
+            classroom.setPrice((Double) result[10]);
+            // Asegúrate de usar byte[] para el video si está almacenado como tal en la base de datos
+            classroom.setVideo((byte[]) result[11]);
 
             // Crear un objeto Teacher y asignar sus propiedades
             Teacher teacher = new Teacher();
-            teacher.setId((Integer) result[10]);
-            teacher.setName((String) result[11]);
-            teacher.setPhoto((byte[]) result[12]);
-            teacher.setMail((String) result[13]);
-            teacher.setPhone((String) result[14]);
-            teacher.setBiography((String) result[15]);
-            teacher.setTitle((String) result[16]);
+            teacher.setId((Integer) result[12]); // Actualiza el índice según la posición del id_teacher
+            teacher.setName((String) result[13]);
+            teacher.setPhoto((byte[]) result[14]);
+            teacher.setMail((String) result[15]);
+            teacher.setPhone((String) result[16]);
+            teacher.setBiography((String) result[17]);
+            teacher.setTitle((String) result[18]);
 
             // Establecer el objeto Teacher en el ClassroomDTO
             classroom.setTeacher(teacher);
 
             // Establecer el ID del profesor en ClassroomDTO
-            classroom.setTeacherID((Integer) result[10]); // Suponiendo que el índice 10 es el campo id_teacher
+            classroom.setTeacherID((Integer) result[12]); // Actualiza el índice según la posición del id_teacher
 
             // Agregar el Classroom a la lista
             classrooms.add(classroom);
@@ -210,6 +212,7 @@ public class ClassroomService {
 
         return classrooms;
     }
+
 
     /**
      * Función para obtener todos los detalles de las aulas de la base de datos
@@ -238,24 +241,26 @@ public class ClassroomService {
             classroom.setProvince((String) result[7]);
             classroom.setLocalidad((String) result[8]);
             classroom.setDuration((String) result[9]);
-            /*classroom.setPrice((Double) result[10]);
-            classroom.setVideo((byte[]) result[11]);**/
+            // Asegúrate de usar Double para el precio en lugar de Integer
+            classroom.setPrice((Double) result[10]);
+            // Asegúrate de usar byte[] para el video si está almacenado como tal en la base de datos
+            classroom.setVideo((byte[]) result[11]);
 
             // Crear un objeto Teacher y asignar sus propiedades
             Teacher teacher = new Teacher();
-            teacher.setId((Integer) result[10]);
-            teacher.setName((String) result[11]);
-            teacher.setPhoto((byte[]) result[12]);
-            teacher.setMail((String) result[13]);
-            teacher.setPhone((String) result[14]);
-            teacher.setBiography((String) result[15]);
-            teacher.setTitle((String) result[16]);
+            teacher.setId((Integer) result[12]); // Actualiza el índice según la posición del id_teacher
+            teacher.setName((String) result[13]);
+            teacher.setPhoto((byte[]) result[14]);
+            teacher.setMail((String) result[15]);
+            teacher.setPhone((String) result[16]);
+            teacher.setBiography((String) result[17]);
+            teacher.setTitle((String) result[18]);
 
             // Establecer el objeto Teacher en el ClassroomDTO
             classroom.setTeacher(teacher);
 
             // Establecer el ID del profesor en ClassroomDTO
-            classroom.setTeacherID((Integer) result[10]); // Suponiendo que el índice 10 es el campo id_teacher
+            classroom.setTeacherID((Integer) result[12]); // Actualiza el índice según la posición del id_teacher
 
             // Agregar el Classroom a la lista
             classrooms.add(classroom);
@@ -263,6 +268,7 @@ public class ClassroomService {
 
         return classrooms;
     }
+
 
     /**
      * Función para buscar todas las aulas de la base de datos por categoría
@@ -293,24 +299,26 @@ public class ClassroomService {
             classroom.setProvince((String) result[7]);
             classroom.setLocalidad((String) result[8]);
             classroom.setDuration((String) result[9]);
-            /**classroom.setPrice((Double) result[10]);
-            classroom.setVideo((byte[]) result[11]);*/
+            // Asegúrate de usar Double para el precio en lugar de Integer
+            classroom.setPrice((Double) result[10]);
+            // Asegúrate de usar byte[] para el video si está almacenado como tal en la base de datos
+            classroom.setVideo((byte[]) result[11]);
 
             // Crear un objeto Teacher y asignar sus propiedades
             Teacher teacher = new Teacher();
-            teacher.setId((Integer) result[10]);
-            teacher.setName((String) result[11]);
-            teacher.setPhoto((byte[]) result[12]);
-            teacher.setMail((String) result[13]);
-            teacher.setPhone((String) result[14]);
-            teacher.setBiography((String) result[15]);
-            teacher.setTitle((String) result[16]);
+            teacher.setId((Integer) result[12]); // Actualiza el índice según la posición del id_teacher
+            teacher.setName((String) result[13]);
+            teacher.setPhoto((byte[]) result[14]);
+            teacher.setMail((String) result[15]);
+            teacher.setPhone((String) result[16]);
+            teacher.setBiography((String) result[17]);
+            teacher.setTitle((String) result[18]);
 
             // Establecer el objeto Teacher en el ClassroomDTO
             classroom.setTeacher(teacher);
 
             // Establecer el ID del profesor en ClassroomDTO
-            classroom.setTeacherID((Integer) result[10]); // Suponiendo que el índice 10 es el campo id_teacher
+            classroom.setTeacherID((Integer) result[12]); // Actualiza el índice según la posición del id_teacher
 
             // Agregar el Classroom a la lista
             classrooms.add(classroom);
@@ -319,13 +327,11 @@ public class ClassroomService {
         return classrooms;
     }
 
+
     public List<ClassroomDTO> getAllClassByPoint(double latitude, double longitude, double radiusInMeters) {
-
-
-        // Convertir las coordenadas de latitud y longitud a un objeto Point
-
         List<Object[]> results = classroomRepository.getAllClassByPoint(latitude, longitude, radiusInMeters);
         List<ClassroomDTO> classrooms = new ArrayList<>();
+
         for (Object[] result : results) {
             ClassroomDTO classroom = new ClassroomDTO();
 
@@ -344,38 +350,32 @@ public class ClassroomService {
             classroom.setProvince((String) result[7]);
             classroom.setLocalidad((String) result[8]);
             classroom.setDuration((String) result[9]);
-            /**classroom.setPrice((Double) result[10]);
-            classroom.setVideo((byte[]) result[11]);*/
+            // Asegúrate de usar Double para el precio en lugar de Integer
+            classroom.setPrice((Double) result[10]);
+            // Asegúrate de usar byte[] para el video si está almacenado como tal en la base de datos
+            classroom.setVideo((byte[]) result[11]);
 
             // Crear un objeto Teacher y asignar sus propiedades
             Teacher teacher = new Teacher();
-            teacher.setId((Integer) result[10]);
-            teacher.setName((String) result[11]);
-            teacher.setPhoto((byte[]) result[12]);
-            teacher.setMail((String) result[13]);
-            teacher.setPhone((String) result[14]);
-            teacher.setBiography((String) result[15]);
-            teacher.setTitle((String) result[16]);
+            teacher.setId((Integer) result[12]); // Actualiza el índice según la posición del id_teacher
+            teacher.setName((String) result[13]);
+            teacher.setPhoto((byte[]) result[14]);
+            teacher.setMail((String) result[15]);
+            teacher.setPhone((String) result[16]);
+            teacher.setBiography((String) result[17]);
+            teacher.setTitle((String) result[18]);
 
             // Establecer el objeto Teacher en el ClassroomDTO
             classroom.setTeacher(teacher);
 
             // Establecer el ID del profesor en ClassroomDTO
-            classroom.setTeacherID((Integer) result[10]); // Suponiendo que el índice 10 es el campo id_teacher
+            classroom.setTeacherID((Integer) result[12]); // Actualiza el índice según la posición del id_teacher
 
             // Agregar el Classroom a la lista
             classrooms.add(classroom);
-
-            // Imprimir la información de la ClassroomDTO encontrada
-            System.out.println("ClassroomDTO encontrada:");
-            System.out.println(classroom.toString());
         }
 
         return classrooms;
     }
+
 }
-
-
-
-
-
