@@ -22,7 +22,7 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
             "c.mail AS client_mail, c.date AS client_date, c.phone AS client_phone, " +
             "t.title AS teacher_title, t.biography AS teacher_biography, " +
             "cl.id AS classroom_id, cl.description, cl.type, cl.category, " +
-            "ST_AsText(cl.location) AS location, cl.direction, cl.postalCode AS postal_code, cl.price,cl.video, " +
+            "ST_AsText(cl.location) AS location, cl.direction, cl.postalCode AS postal_code, " +
             "cl.province, cl.localidad, cl.duration " +
             "FROM Client c " +
             "JOIN Teacher t ON c.id = t.id " +
@@ -40,7 +40,7 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
     @Query("SELECT c.id AS client_id, c.photo AS client_photo, c.name AS client_name, " +
             "c.mail AS client_mail, c.date AS client_date, c.phone AS client_phone, " +
             "t.title AS teacher_title, t.biography AS teacher_biography, " +
-            "cl.id AS classroom_id, cl.description, cl.type, cl.category, cl.price, cl.video, " +
+            "cl.id AS classroom_id, cl.description, cl.type, cl.category, " +
             "ST_AsText(cl.location) AS location, cl.direction, cl.postalCode AS postal_code, " +
             "cl.province, cl.localidad, cl.duration " +
             "FROM Client c " +
@@ -68,8 +68,6 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
             "c.province AS classroom_province, " +
             "c.localidad AS classroom_localidad, " +
             "c.duration AS classroom_duration, " +
-            "c.price AS classroom_price, " +
-            "c.video AS classroom_video, " +
             "c.id_teacher AS classroom_id_teacher, " +
             "cl.name AS teacher_name, " +
             "cl.photo AS teacher_photo, " +
@@ -105,8 +103,6 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
             "c.province AS classroom_province, " +
             "c.localidad AS classroom_localidad, " +
             "c.duration AS classroom_duration, " +
-            "c.price AS classroom_price, " +
-            "c.video AS classroom_video, " +
             "c.id_teacher AS classroom_id_teacher, " +
             "cl.name AS teacher_name, " +
             "cl.photo AS teacher_photo, " +
@@ -138,8 +134,6 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
             "c.province AS classroom_province, " +
             "c.localidad AS classroom_localidad, " +
             "c.duration AS classroom_duration, " +
-            "c.price AS classroom_price, " +
-            "c.video AS classroom_video, " +
             "c.id_teacher AS classroom_id_teacher, " +
             "cl.name AS teacher_name, " +
             "cl.photo AS teacher_photo, " +
@@ -164,8 +158,6 @@ public interface ClassroomRepository extends JpaRepository<Classroom, Integer> {
             "c.province AS classroom_province, " +
             "c.localidad AS classroom_localidad, " +
             "c.duration AS classroom_duration, " +
-            "c.price AS classroom_price, " +
-            "c.video AS classroom_video, " +
             "c.id_teacher AS classroom_id_teacher, " +
             "cl.name AS teacher_name, " +
             "cl.photo AS teacher_photo, " +
