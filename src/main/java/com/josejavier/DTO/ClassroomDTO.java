@@ -15,9 +15,9 @@ public class ClassroomDTO {
     private String localidad;
     private String duration;
     private int teacherID;
-    private static byte[] video;
+    private  byte[] video;
     private Teacher teacher;
-    private static double price;
+    private  double price;
 
     public ClassroomDTO(Integer id, String description, String type, String category, Double lat, Double lng, String direction, String postalCode, String province, String localidad, String duration, int teacherID, byte[] video, Teacher teacher, double price) {
         this.id = id;
@@ -128,7 +128,7 @@ public class ClassroomDTO {
         this.teacherID = teacherID;
     }
 
-    public static byte[] getVideo() {
+    public  byte[] getVideo() {
         return video;
     }
 
@@ -152,7 +152,7 @@ public class ClassroomDTO {
         this.teacher = teacher;
     }
 
-    public static double getPrice() {
+    public  double getPrice() {
         return price;
     }
 
@@ -163,6 +163,8 @@ public class ClassroomDTO {
     @Override
     public String toString() {
         return "ClassroomDTO{" +
+                ", price=" + price +
+                ", video=" + video +
                 "id=" + id +
                 ", description='" + description + '\'' +
                 ", type='" + type + '\'' +
@@ -175,9 +177,9 @@ public class ClassroomDTO {
                 ", localidad='" + localidad + '\'' +
                 ", duration='" + duration + '\'' +
                 ", teacherID=" + teacherID +
-                ", video=" + video +
+
                 ", teacher=" + teacher +
-                ", price=" + price +
+
                 '}';
     }
 }
