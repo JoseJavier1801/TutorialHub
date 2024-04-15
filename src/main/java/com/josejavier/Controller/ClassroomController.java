@@ -76,8 +76,8 @@ public class ClassroomController {
             existingClassroom.setPostalCode(classroomDTO.getPostalCode());
             existingClassroom.setProvince(classroomDTO.getProvince());
             existingClassroom.setLocalidad(classroomDTO.getLocalidad());
-            existingClassroom.setPrice(ClassroomDTO.getPrice());
-            existingClassroom.setVideo(ClassroomDTO.getVideo());
+            existingClassroom.setPrice(classroomDTO.getPrice()); // Corregir aquí
+            existingClassroom.setVideo(classroomDTO.getVideo()); // Corregir aquí
 
             // Convertir la ubicación del DTO a un objeto Point
             GeometryFactory geometryFactory = new GeometryFactory();
@@ -101,6 +101,7 @@ public class ClassroomController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
 
     // Método para crear un objeto Point a partir de latitud y longitud
     private Point createPoint(Double lat, Double lng) {
@@ -205,5 +206,16 @@ public class ClassroomController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @GetMapping("/filtered")
+    public List<ClassroomDTO> getClassroomsByFilter(
+            @RequestParam("minPrice") double minPrice,
+            @RequestParam("maxPrice") double maxPrice,
+            @RequestParam("filterValue") int filterValue) {
+
+        return classroomService.getClassroomsByFilter(minPrice, maxPrice, filterValue);
+    }
+
+
+
 
 }
