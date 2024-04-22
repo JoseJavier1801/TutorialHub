@@ -85,7 +85,7 @@ public class ClientController {
      * @param loginData
      * @return Client
      */
-    @PostMapping("/login")
+    @GetMapping("/login")
     public ResponseEntity<Client> login(@RequestBody Client loginData) {
         String username = loginData.getUsername();
         String password = loginData.getPassword();
