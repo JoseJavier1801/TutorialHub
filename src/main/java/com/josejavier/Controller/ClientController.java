@@ -1,5 +1,6 @@
 package com.josejavier.Controller;
 
+import com.josejavier.JWT.JWTConfig;
 import com.josejavier.model.Client;
 import com.josejavier.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ import java.util.List;
 public class ClientController {
     @Autowired
     ClientService service;
+
+    @Autowired
+    JWTConfig jwtConfig;
 
     /**
      *  función para obtener todos los clientes
@@ -94,6 +98,9 @@ public class ClientController {
         Client client = service.findByUsernameAndPassword(username, hashedPassword);
 
         if (client != null) {
+            // Si el cliente existe, genera un token y lo devuelve
+            String token = jwtConfig.generateToken(client.getUsername());
+            System.out.println(token);
             return ResponseEntity.ok(client);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
