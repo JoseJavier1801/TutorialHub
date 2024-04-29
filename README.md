@@ -51,12 +51,28 @@
   
    Enlace a swagger: https://tutorialhubbackend.onrender.com/swagger-ui/index.html
 
-   ### Instalcion local:
-      Para instalar TutorialHub en el dispositivo local sigue estos pasos:
-         -Copiar este enlace : https://github.com/JoseJavier1801/TutorialHub.git
-         -Usando git en pc crear un clon del repositorio(`git clone https://github.com/JoseJavier1801/TutorialHub.git`)
-         -Una vez clonado abrir con el entorno de desarrollo(Intelij)
-         -ejecutar desde el entorno AppMain e iniciara Springboot
-         -Una vez Springboot iniciado, en el navegador poner localhost:8080/swagger-ui/index.html
+### Instalación local
+
+Para instalar TutorialHub en tu dispositivo local, sigue estos pasos:
+
+1. **Clonar el repositorio:** Copia este enlace en tu terminal para clonar el repositorio en tu PC utilizando Git:
+   ```bash
+   git clone https://github.com/JoseJavier1801/TutorialHub.git.
+   
+2. **Abrir con un entorno de desarrollo:**
+   -  Una vez clonado, abre el proyecto con tu entorno de desarrollo preferido. Recomendamos utilizar IntelliJ IDEA.
+  
+3. **Ejecutar la aplicación:**
+   - Desde IntelliJ IDEA, ejecuta la clase AppMain para iniciar la aplicación Spring Boot.
+  
+4. **Acceder a Swagger UI:**
+   - Una vez que Spring Boot haya iniciado correctamente, abre tu navegador web y accede a la siguiente dirección:
+     ```bash
+     http://localhost:8080/swagger-ui/index.html
+
+
+
+
+   
 
 
