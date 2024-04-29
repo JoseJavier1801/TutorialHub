@@ -66,9 +66,7 @@ Para instalar TutorialHub en tu dispositivo local, sigue estos pasos:
    - Desde IntelliJ IDEA, ejecuta la clase AppMain para iniciar la aplicación Spring Boot.
   
 4. **Acceder a Swagger UI:**
-   - Una vez que Spring Boot haya iniciado correctamente, abre tu navegador web y accede a la siguiente dirección:
-     ```bash
-     http://localhost:8080/swagger-ui/index.html
+   - Una vez que Spring Boot haya iniciado correctamente, abre tu navegador web y accede a la siguiente dirección:  http://localhost:8080/swagger-ui/index.html
 
 
 
