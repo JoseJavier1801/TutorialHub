@@ -84,20 +84,22 @@ public class ClientController {
 
     /**
      *  Función para iniciar sesión de un cliente en la base de datos
-     * @param username nombre de usuario del cliente que intenta iniciar sesión
-     * @param password contraseña del cliente que intenta iniciar sesión
+     * @param
      * @return Client
      */
     @GetMapping("/login")
     public ResponseEntity<ClientDTO> userLogin(@RequestParam("username") String username, @RequestParam("password") String password) throws NoSuchAlgorithmException {
         // Hashear la contraseña proporcionada
         String hashedPassword = hashPassword(password);
-        Client client = service.getClientByUsernameOrEmail(username, hashedPassword);
-        if(client != null){
-            String token = jwtConfig.generateToken(client.getUsername());
-            ClientDTO clientDTO = new ClientDTO().builder().username(client.getUsername()).password(client.getPassword()).token(token).build();
+
+        // Llama al método del servicio con la contraseña hasheada
+        Client client = service.findByUsernameAndPassword(username, hashedPassword);
+
+        if (client != null) {
+            String token = jwtConfig.generateToken(username);
+            ClientDTO clientDTO = new ClientDTO().builder().id(client.getId()).photo(client.getPhoto()).name(client.getName()).username(client.getUsername()).mail(client.getMail()).date(client.getDate()).phone(client.getPhone()).token(token).password(client.getPassword()).build();
             return ResponseEntity.ok(clientDTO);
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
