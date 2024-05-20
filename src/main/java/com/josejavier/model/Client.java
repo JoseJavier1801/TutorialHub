@@ -40,6 +40,9 @@ public class Client {
     @OneToMany(mappedBy = "client")
     private List<Assessment> assessments;
 
+    @OneToMany(mappedBy = "client")
+    private List<Homework> homeworks;
+
     public Client() {
 
     }

@@ -24,6 +24,9 @@ public class Teacher extends Client {
     @OneToMany(mappedBy = "teacher" ,fetch = FetchType.LAZY)
     private List<Assessment> assessments;
 
+    @OneToMany(mappedBy = "teacher")
+    private List<Homework> homeworks;
+
 
     public Teacher() {
     }
