@@ -2,6 +2,7 @@ package com.josejavier.Controller;
 
 
 
+import com.josejavier.JWT.JWTConfig;
 import com.josejavier.model.Teacher;
 import com.josejavier.repository.TeacherRepository;
 import com.josejavier.service.TeacherService;
@@ -17,6 +18,9 @@ public class TeacherController {
 
     @Autowired
     TeacherService service;
+
+    @Autowired
+    JWTConfig jwtConfig;
 
     /**
      *  Función para obtener todos los profesores de la base de datos
@@ -89,11 +93,11 @@ public class TeacherController {
     public ResponseEntity<Teacher> loginTeacher(@RequestParam("username") String username, @RequestParam("password") String password) {
         Teacher teacher = service.findByUsernameAndPassword(username, password);
         if (teacher != null) {
+            String token = jwtConfig.generateToken(username);
+            System.out.println(token);
             return ResponseEntity.ok(teacher);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
-
-
 }

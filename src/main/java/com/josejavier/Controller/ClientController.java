@@ -1,5 +1,7 @@
 package com.josejavier.Controller;
 
+import com.josejavier.DTO.ClientDTO;
+import com.josejavier.JWT.JWTConfig;
 import com.josejavier.model.Client;
 import com.josejavier.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RestController
@@ -15,6 +18,9 @@ import java.util.List;
 public class ClientController {
     @Autowired
     ClientService service;
+
+    @Autowired
+    JWTConfig jwtConfig;
 
     /**
      *  función para obtener todos los clientes
@@ -78,15 +84,11 @@ public class ClientController {
 
     /**
      *  Función para iniciar sesión de un cliente en la base de datos
-     * @param loginData
+     * @param
      * @return Client
      */
-    @PostMapping("/login")
-    public ResponseEntity<Client> login(@RequestBody Client loginData) {
-        String username = loginData.getUsername();
-        String password = loginData.getPassword();
-
-
+    @GetMapping("/login")
+    public ResponseEntity<ClientDTO> userLogin(@RequestParam("username") String username, @RequestParam("password") String password) throws NoSuchAlgorithmException {
         // Hashear la contraseña proporcionada
         String hashedPassword = hashPassword(password);
 
@@ -94,7 +96,9 @@ public class ClientController {
         Client client = service.findByUsernameAndPassword(username, hashedPassword);
 
         if (client != null) {
-            return ResponseEntity.ok(client);
+            String token = jwtConfig.generateToken(username);
+            ClientDTO clientDTO = new ClientDTO().builder().id(client.getId()).photo(client.getPhoto()).name(client.getName()).username(client.getUsername()).mail(client.getMail()).date(client.getDate()).phone(client.getPhone()).token(token).password(client.getPassword()).build();
+            return ResponseEntity.ok(clientDTO);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
