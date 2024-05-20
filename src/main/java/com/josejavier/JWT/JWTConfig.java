@@ -38,4 +38,5 @@ public class JWTConfig {
                 .signWith(key(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
 }
