@@ -40,5 +40,4 @@ public class Homework {
     @Column(name = "description")
     private String description;
 
-
 }
