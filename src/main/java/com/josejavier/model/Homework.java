@@ -50,6 +50,15 @@ public class Homework {
         this.description = dto.getDescription();
     }
 
+    public Homework(HomeworkDTO dto, Client client, Teacher teacher) {
+        this.id = dto.getId();
+        this.client = client;
+        this.teacher = teacher;
+        this.archive = dto.getArchive();
+        this.datetime = dto.getDatetime();
+        this.description = dto.getDescription();
+    }
+
     public HomeworkDTO toDTO(){
         HomeworkDTO dto = new HomeworkDTO();
         dto.setId(this.id);
