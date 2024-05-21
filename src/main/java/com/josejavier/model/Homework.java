@@ -1,5 +1,6 @@
 package com.josejavier.model;
 
+import com.josejavier.DTO.HomeworkDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,7 +32,7 @@ public class Homework {
 
     @Lob
     @Column(name = "archive")
-    private Blob archive;
+    private byte[] archive;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "datetime")
@@ -40,4 +41,23 @@ public class Homework {
     @Column(name = "description")
     private String description;
 
+    public Homework(HomeworkDTO dto){
+        this.id = dto.getId();
+        this.client = dto.getClient();
+        this.teacher = dto.getTeacher();
+        this.archive = dto.getArchive();
+        this.datetime = dto.getDatetime();
+        this.description = dto.getDescription();
+    }
+
+    public HomeworkDTO toDTO(){
+        HomeworkDTO dto = new HomeworkDTO();
+        dto.setId(this.id);
+        dto.setClientId(this.client.getId());
+        dto.setTeacherId(this.teacher.getId());
+        dto.setArchive(this.archive);
+        dto.setDatetime(this.datetime);
+        dto.setDescription(this.description);
+        return dto;
+    }
 }
