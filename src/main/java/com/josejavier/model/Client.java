@@ -12,6 +12,7 @@ import java.util.List;
 @Table(name = "client")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Client {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -47,6 +48,16 @@ public class Client {
 
     }
 
+    public Client(int id, byte[] photo, String name, String username, String mail, String password, LocalDate date, String phone) {
+        this.id = id;
+        this.photo = photo;
+        this.name = name;
+        this.username = username;
+        this.mail = mail;
+        this.password = password;
+        this.date = date;
+        this.phone = phone;
+    }
 
     // Getters and setters
 
