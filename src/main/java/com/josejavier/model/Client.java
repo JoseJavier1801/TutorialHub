@@ -54,19 +54,6 @@ public class Client {
 
     }
 
-    public ClientDTO toDTO(){
-        ClientDTO dto = new ClientDTO();
-        dto.setId(this.id);
-        dto.setPhoto(this.photo);
-        dto.setName(this.name);
-        dto.setUsername(this.username);
-        dto.setMail(this.mail);
-        dto.setPassword(this.password);
-        dto.setDate(this.date);
-        dto.setPhone(this.phone);
-        return dto;
-    }
-
     // Getters and setters
 
     public int getId() {
