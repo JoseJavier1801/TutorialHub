@@ -2,7 +2,7 @@ package com.josejavier.model;
 
 
 
-import com.josejavier.DTO.ClientDTO;
+
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -47,41 +47,6 @@ public class Client {
 
     }
 
-    public Client(ClientDTO dto){
-        this.id = dto.getId();
-        this.photo = dto.getPhoto();
-        this.name = dto.getName();
-        this.username = dto.getUsername();
-        this.mail = dto.getMail();
-        this.password = dto.getPassword();
-        this.date = dto.getDate();
-        this.phone = dto.getPhone();
-    }
-
-    public Client(int id, byte[] photo, String name, String username, String mail, String password, LocalDate date, String phone) {
-        this.id = id;
-        this.photo = photo;
-        this.name = name;
-        this.username = username;
-        this.mail = mail;
-        this.password = password;
-        this.date = date;
-        this.phone = phone;
-
-    }
-
-    public ClientDTO toDTO(){
-        ClientDTO dto = new ClientDTO();
-        dto.setId(this.id);
-        dto.setPhoto(this.photo);
-        dto.setName(this.name);
-        dto.setUsername(this.username);
-        dto.setMail(this.mail);
-        dto.setPassword(this.password);
-        dto.setDate(this.date);
-        dto.setPhone(this.phone);
-        return dto;
-    }
 
     // Getters and setters
 

@@ -1,6 +1,5 @@
 package com.josejavier.Controller;
 
-import com.josejavier.DTO.ClientDTO;
 import com.josejavier.JWT.JWTConfig;
 import com.josejavier.model.Client;
 import com.josejavier.service.ClientService;
@@ -88,7 +87,7 @@ public class ClientController {
      * @return Client
      */
     @GetMapping("/login")
-    public ResponseEntity<ClientDTO> userLogin(@RequestParam("username") String username, @RequestParam("password") String password) throws NoSuchAlgorithmException {
+    public ResponseEntity<Client> userLogin(@RequestParam("username") String username, @RequestParam("password") String password) throws NoSuchAlgorithmException {
         // Hashear la contraseña proporcionada
         String hashedPassword = hashPassword(password);
 
@@ -97,8 +96,7 @@ public class ClientController {
 
         if (client != null) {
             String token = jwtConfig.generateToken(username);
-            ClientDTO clientDTO = new ClientDTO().builder().id(client.getId()).photo(client.getPhoto()).name(client.getName()).username(client.getUsername()).mail(client.getMail()).date(client.getDate()).phone(client.getPhone()).token(token).password(client.getPassword()).build();
-            return ResponseEntity.ok(clientDTO);
+            return ResponseEntity.ok(client);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
