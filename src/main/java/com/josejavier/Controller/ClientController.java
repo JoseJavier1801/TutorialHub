@@ -86,8 +86,12 @@ public class ClientController {
      * @param
      * @return Client
      */
-    @GetMapping("/login")
-    public ResponseEntity<Client> userLogin(@RequestParam("username") String username, @RequestParam("password") String password) throws NoSuchAlgorithmException {
+    @PostMapping("/login")
+    public ResponseEntity<Client> login(@RequestBody Client loginData) {
+        String username = loginData.getUsername();
+        String password = loginData.getPassword();
+
+
         // Hashear la contraseña proporcionada
         String hashedPassword = hashPassword(password);
 
@@ -95,7 +99,6 @@ public class ClientController {
         Client client = service.findByUsernameAndPassword(username, hashedPassword);
 
         if (client != null) {
-            String token = jwtConfig.generateToken(username);
             return ResponseEntity.ok(client);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
