@@ -44,17 +44,6 @@ public class Client {
 
     }
 
-    public Client(ClientDTO dto){
-        this.id = dto.getId();
-        this.photo = dto.getPhoto();
-        this.name = dto.getName();
-        this.username = dto.getUsername();
-        this.mail = dto.getMail();
-        this.password = dto.getPassword();
-        this.date = dto.getDate();
-        this.phone = dto.getPhone();
-    }
-
     public Client(int id, byte[] photo, String name, String username, String mail, String password, LocalDate date, String phone) {
         this.id = id;
         this.photo = photo;
